@@ -18,14 +18,21 @@ export class LoginPage implements OnInit {
       'nombre': new FormControl("", Validators.required),
       'password': new FormControl("", Validators.required)
     });
-
+  }
+  mostrar() {
+    var x = document.getElementById('password') as HTMLInputElement; //as HTMLInputElement para realizar una conversión de tipoas HTMLInputElement para realizar una conversión de tipo
+    //getElementById para buscar un elemento en el documento HTML con el atributo id igual a "password"
+    if (x.type === "password") {
+        x.type = "text";  //si la variable es de tipo Password la pasa a tipo Text 
+    } else {
+        x.type = "password"; // si la variable es no es de tipo Password la convertira de tipo Password
+    }
   }
   goToRegistro(){
     this.router.navigate(['/registro'])
   }
   ngOnInit() {
   }
-
   async ingresar(){
     var f = this.formularioLogin.value;
     var usuarioString = localStorage.getItem('usuario');
