@@ -51,4 +51,13 @@ export class RegistroPage implements OnInit {
     console.log('usuario',JSON.stringify(usuario))
   }
 
+  mostrar() {
+    var x = document.getElementById('password') as HTMLInputElement; //as HTMLInputElement para realizar una conversión de tipoas HTMLInputElement para realizar una conversión de tipo
+    //getElementById para buscar un elemento en el documento HTML con el atributo id igual a "password"
+    if (x.type === "password") {
+        x.type = "text";  //si la variable es de tipo Password la pasa a tipo Text 
+    } else {
+        x.type = "password"; // si la variable es no es de tipo Password la convertira de tipo Password
+    }
+  }
 }

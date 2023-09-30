@@ -11,14 +11,17 @@
     </ion-card-header>
     <ion-card-content>
       <form [formGroup]="formularioLogin">
-        <ion-item>
+        <ion-item lines="none" class="custom-item">
           <ion-label position="floating">Nombre</ion-label>
-          <ion-input formControlName="nombre"></ion-input>
+          <ion-input formControlName="nombre" class="custom-input"></ion-input>
         </ion-item>
-        <ion-button (click)="mostrar()">mostrar contraseña</ion-button>
-        <ion-item>
+        <ion-item lines="none" class="custom-item">
+          <ion-checkbox (ionChange)="mostrar()"  class="check"></ion-checkbox>
           <ion-label position="floating">Contraseña</ion-label>
-          <ion-input formControlName="password" type="password" id="password"></ion-input>
+          <ion-input formControlName="password" type="password" id="password" class="custom-input"></ion-input>
+        </ion-item>
+        <ion-item line="none">
+          <h6 (click)="goToContrasenna()">¿olviaste tu contraseña?</h6>
         </ion-item>
       </form>
       <br>

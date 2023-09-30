@@ -31,6 +31,9 @@ export class LoginPage implements OnInit {
   goToRegistro(){
     this.router.navigate(['/registro'])
   }
+  goToContrasenna(){
+    this.router.navigate(['/recuperar'])
+  }
   ngOnInit() {
   }
   async ingresar(){
@@ -42,7 +45,7 @@ export class LoginPage implements OnInit {
 
       if (usuario.nombre === f.nombre && usuario.password === f.password) {
         console.log('Ingresado');
-        this.router.navigate(['/home'])
+        this.router.navigate(['/intro'])
       } else {
         const alert = await this.alertController.create({
           header: 'Datos incorrectos',

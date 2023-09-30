@@ -18,4 +18,5 @@ export class HomePage implements OnInit {
       this.nombreUsuario = usuario.nombre;
     }
   }
+  
 }
