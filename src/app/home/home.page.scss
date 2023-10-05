@@ -4,20 +4,23 @@
   border-radius: 50%;
   object-fit: cover;
   background: #dfdfdf;
-  margin-left: 70px;
-  margin-top: 20px;
 }
 .text{
-  margin-left: 110px;
+  color: #C0DFF4;
 }
-ion-menu::part(backdrop) {
-  background-color: rgba(255, 0, 255, 0.5);
+.menu_perfil{
+  text-align: center;
+  margin-top: 20px;
+
+}
+-menu::part(backdrop) {
+  background-color: rgba(0,0, 0, 0.5);
 }
 
 ion-menu::part(container) {
   border-radius: 0 20px 20px 0;
 
-  box-shadow: 4px 0px 16px rgba(255, 0, 255, 0.18);
+  box-shadow: 4px 0px 16px rgba(0, 0, 0, 0.18);
 }
 .orden_boton{
   display: flex;
@@ -27,10 +30,42 @@ ion-menu::part(container) {
 }
 .button_menu{
   height: 5px;
+  color: #C0DFF4;
+  --background: transparent; 
+  --border-color: transparent;
+  border: 2px solid black; 
+  border-radius: 10px
 }
-
+.button_menu:hover{
+  --background: rgba(0, 0, 0, 0.1); 
+}
 .boton-derecha {
   position: absolute;
-  top: 10%; /* Ajusta la posición vertical según tu preferencia */
-  right: 10%; /* Ajusta la posición horizontal según tu preferencia */
+  top: 10%; 
+  right: 10%; 
+}
+.menu_dentro{
+  --background: #264AB4;
+}
+.h6_menu{
+  margin-top: 80%; 
+  position: relative; 
+}
+.elemento1 {
+  position: absolute;
+  left: 51%; 
+  top: -10px; 
+}
+
+.elemento2 {
+  position: absolute;
+  left: 67%; 
+  top: 15px; 
+}
+.Footer_Menu{
+  text-align: center;
+  --background: #264AB4
+}
+.ion-padding{
+  --background: linear-gradient(45deg, #2950BA,#0B1435);
 }

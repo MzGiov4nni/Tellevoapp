@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 export class HomePage implements OnInit {
   nombreUsuario!: string; // Propiedad para almacenar el nombre del usuario
 
-  constructor() {}
+  constructor(private router: Router) {}
+  
+  goToPerfil(){
+    this.router.navigate(['/perfil'])
+  }
 
   ngOnInit() {
     // Recuperar los datos del usuario desde el Local Storage
