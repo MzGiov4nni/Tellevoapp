@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   FormGroup,
   FormControl,
@@ -16,7 +17,7 @@ export class RegistroPage implements OnInit {
 
   formularioRegistro: FormGroup;
   
-  constructor(public fb: FormBuilder,
+  constructor(public fb: FormBuilder,private router: Router,
     public alertController: AlertController) {
     this.formularioRegistro = this.fb.group({
       'nombre': new FormControl("", Validators.required),
@@ -59,5 +60,8 @@ export class RegistroPage implements OnInit {
     } else {
         x.type = "password"; // si la variable es no es de tipo Password la convertira de tipo Password
     }
+  }
+  goToLogin(){
+    this.router.navigate(['/login'])
   }
 }

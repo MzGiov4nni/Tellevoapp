@@ -1,37 +1,34 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <ion-title>registro</ion-title>
-    <ion-button slot="start">
-      <ion-back-button defaultHref="/login"></ion-back-button>
-    </ion-button>
-  </ion-toolbar>
-</ion-header>
-
-
-<ion-content>
-  <ion-card>
+<ion-content class="cuerpo">
+  <ion-card class="card">
     <ion-card-header>
-      <ion-card-title>Registro</ion-card-title>
+      <ion-card-title class="letra">Registro</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <form [formGroup]="formularioRegistro" (keyup.enter)="guardar()">
         <ion-item  lines="none" class="custom-item">
-          <ion-label position="floating">Nombre</ion-label>
+          <ion-label position="floating" class="letra">Nombre</ion-label>
           <ion-input formControlName="nombre" class="custom-input"></ion-input>
         </ion-item>
         <ion-item lines="none" class="custom-item">
-          <ion-checkbox (ionChange)="mostrar()"  class="check"></ion-checkbox>
-          <ion-label position="floating">Contraseña</ion-label>
+          <ion-label position="floating" class="letra">Contraseña</ion-label>
           <ion-input formControlName="password" type="password" class="custom-input" id="password"></ion-input>
         </ion-item>
         <ion-item lines="none" class="custom-item">
-          <ion-label position="floating">Confirmar contraseña</ion-label>
+          <ion-label position="floating" class="letra">Confirmar contraseña</ion-label>
           <ion-input formControlName="confirmacionPassword" type="password" class="custom-input"></ion-input>
         </ion-item>
+        <ion-checkbox (ionChange)="mostrar()"  class="check"></ion-checkbox>
         <br>
-        <ion-button (click)="guardar()">Registrarse
+        <ion-button (click)="guardar()" class="boton">Registrarse
         </ion-button>
       </form>
     </ion-card-content>
   </ion-card>
 </ion-content>
+<ion-footer>
+  <ion-toolbar class="cuerpo">
+    <ion-buttons slot="start">
+      <ion-button class="letra" (click)="goToLogin()" color="light">Login</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

@@ -34,7 +34,7 @@ ion-menu::part(container) {
   --background: transparent; 
   --border-color: transparent;
   border: 2px solid black; 
-  border-radius: 10px
+  border-radius: 10px;
 }
 .button_menu:hover{
   --background: rgba(0, 0, 0, 0.1); 
@@ -64,7 +64,7 @@ ion-menu::part(container) {
 }
 .Footer_Menu{
   text-align: center;
-  --background: #264AB4
+  --background: #264AB4;
 }
 .ion-padding{
   --background: linear-gradient(45deg, #2950BA,#0B1435);

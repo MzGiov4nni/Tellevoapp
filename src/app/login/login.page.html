@@ -1,41 +1,33 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
+<ion-content class="cuerpo">
   <ion-card class="card">
     <ion-card-header>
-      <ion-card-title>Login</ion-card-title>
+      <ion-card-title class="letra">Login</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <form [formGroup]="formularioLogin">
         <ion-item lines="none" class="custom-item">
-          <ion-label position="floating">Nombre</ion-label>
+          <ion-label position="floating" class="letra">Nombre</ion-label>
           <ion-input formControlName="nombre" class="custom-input"></ion-input>
         </ion-item>
         <ion-item lines="none" class="custom-item">
-          <ion-checkbox (ionChange)="mostrar()"  class="check"></ion-checkbox>
-          <ion-label position="floating">Contraseña</ion-label>
+          <ion-label position="floating" class="letra">Contraseña</ion-label>
           <ion-input formControlName="password" type="password" id="password" class="custom-input"></ion-input>
         </ion-item>
-        <ion-item line="none">
-          <h6 (click)="goToContrasenna()">¿olviaste tu contraseña?</h6>
+        <ion-item lines="none" class="custom-item">
+          <h6 (click)="goToContrasenna()" class="letra">¿olviaste tu contraseña?</h6>
         </ion-item>
+        <ion-checkbox (ionChange)="mostrar()"  class="check"></ion-checkbox>
       </form>
       <br>
-      <ion-button (click)="ingresar()">
-        Ingresar
-      </ion-button>
+      <ion-button (click)="ingresar()" class="boton">Ingresar</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar color="primary">
+  <ion-toolbar class="cuerpo">
     <ion-buttons slot="end">
-      <ion-button (click)="goToRegistro()">Registrarse</ion-button>
+      <ion-button (click)="goToRegistro()" class="letra" color="light">Registrarse</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>
