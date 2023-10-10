@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import * as mapboxgl from 'mapbox-gl';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -8,11 +10,12 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
   nombreUsuario!: string; // Propiedad para almacenar el nombre del usuario
+  map!: mapboxgl.Map;
 
   constructor(private router: Router) {}
-  
-  goToPerfil(){
-    this.router.navigate(['/perfil'])
+
+  goToPerfil() {
+    this.router.navigate(['/perfil']);
   }
 
   ngOnInit() {
@@ -22,6 +25,18 @@ export class HomePage implements OnInit {
       const usuario = JSON.parse(usuarioJSON);
       this.nombreUsuario = usuario.nombre;
     }
+
+    // Configurar el token de acceso al crear el mapa
+    this.initializeMap();
   }
-  
+
+  initializeMap() {
+    this.map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [-74.5, 40],
+      zoom: 9,
+      accessToken: environment.mapboxToken, // Configura el token aquí
+    });
+  }
 }
