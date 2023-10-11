@@ -21,6 +21,10 @@ export class HomePage implements OnInit {
   goToPerfil() {
     this.router.navigate(['/perfil']);
   }
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
+
 
   async ngOnInit() {
     const usuarioJSON = localStorage.getItem('usuario');

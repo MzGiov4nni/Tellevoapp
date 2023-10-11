@@ -12,15 +12,18 @@
       </div>
       <div class="orden_boton">
         <ion-button class="button_menu">Pedir viajes</ion-button>
+        <ion-button class="button_menu">Mapa</ion-button>
+        <ion-button class="button_menu">Pedir viajes</ion-button>
+        <ion-button class="button_menu">Pedir viajes</ion-button>
       </div>
       <div class="h6_menu">
-        <h6 class="elemento1">ejemplo@duocuc.cl</h6>
-        <h6 class="elemento2">9 9999 9999</h6>  
+        <h6 class="elemento1 text">ejemplo@duocuc.cl</h6>
+        <h6 class="elemento2 text">9 9999 9999</h6>  
       </div>
     </ion-content>
 
-    <ion-footer class="Footer_Menu">
-      <h6>hola</h6>
+    <ion-footer class="Footer_Menu" (click)="goToLogin()">
+      <h6 class="text">cerrar sesion</h6>
     </ion-footer>
   </ion-menu>
   <div class="ion-page" id="main-content">

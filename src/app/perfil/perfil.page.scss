@@ -1,0 +1,27 @@
+.cuerpo{
+    --background: linear-gradient(45deg, #2950BA,#0B1435);
+    text-align: center;
+}
+.img{
+    height: 170px;
+    width: 170px;
+    margin-top: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #dfdfdf;
+}
+.text{
+    color: #C0DFF4;
+    font-family: "Roboto", sans-serif; 
+    text-transform: uppercase;
+}
+.text2{
+    color: #C0DFF4;
+    font-family: "Roboto", sans-serif; 
+    text-align: left;
+    margin-left: 10px;
+    letter-spacing: 3px;
+}
+ion-footer {
+    background: linear-gradient(45deg, #2950BA,#0B1435);
+}

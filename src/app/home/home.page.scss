@@ -7,6 +7,7 @@
 }
 .text{
   color: #C0DFF4;
+  font-family: "Roboto", sans-serif; 
 }
 .menu_perfil{
   text-align: center;
@@ -64,7 +65,8 @@ ion-menu::part(container) {
 }
 .Footer_Menu{
   text-align: center;
-  --background: #264AB4;
+  background: #264AB4;
+  border: 2px solid black;
 }
 .ion-padding{
   --background: linear-gradient(45deg, #2950BA,#0B1435);
