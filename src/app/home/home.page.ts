@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
 import { Geolocation } from '@capacitor/geolocation';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -12,25 +13,23 @@ import { Geolocation } from '@capacitor/geolocation';
 export class HomePage implements OnInit {
   nombreUsuario!: string;
   map!: mapboxgl.Map;
-  latitud: number = 0; 
+  latitud: number = 0;
   longitud: number = 0;
-  constructor(private router: Router) {}
+  direccion: string = ''; 
+  constructor(private router: Router, private http: HttpClient) {}
 
   goToPerfil() {
     this.router.navigate(['/perfil']);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const usuarioJSON = localStorage.getItem('usuario');
     if (usuarioJSON) {
       const usuario = JSON.parse(usuarioJSON);
       this.nombreUsuario = usuario.nombre;
     }
-    
-    // Obtiene la ubicación y luego inicializa el mapa
     this.obtenerLatitudLongitud();
   }
-
   async obtenerLatitudLongitud() {
     try {
       const coordinates = await Geolocation.getCurrentPosition();
@@ -39,7 +38,7 @@ export class HomePage implements OnInit {
       console.log('Latitud:', this.latitud);
       console.log('Longitud:', this.longitud);
 
-      // Después de obtener la ubicación, inicializa el mapa
+      this.obtenerNombreDeCalle();
       this.initializeMap();
     } catch (error) {
       console.error('Error al obtener la ubicación:', error);
@@ -50,10 +49,25 @@ export class HomePage implements OnInit {
     this.map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [this.longitud, this.latitud], // Nota que se invierten latitud y longitud
-      zoom: 16,
+      center: [this.longitud, this.latitud],
+      zoom: 15,
       accessToken: environment.mapboxToken,
     });
-  }  
-}
+  }
 
+  obtenerNombreDeCalle() {
+    const apiKey = environment.mapboxToken;
+    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.longitud},${this.latitud}.json?access_token=${apiKey}`;
+
+    this.http.get(url).subscribe((response: any) => {
+      if (response.features && response.features.length > 0) {
+        this.direccion = response.features[0].place_name;
+        console.log('Dirección:', this.direccion);
+      } else {
+        console.error('No se encontró una dirección válida para estas coordenadas.');
+      }
+    }, (error) => {
+      console.error('Error al realizar la solicitud de geocodificación:', error);
+    });
+  }
+}
