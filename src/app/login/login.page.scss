@@ -1,6 +1,6 @@
 .check{
     position: absolute; 
-    top: 100px; 
+    top: 280px; 
     left: 80%;
     margin-right: 5px;
     --border-color: black;
@@ -49,5 +49,8 @@
     border-top-right-radius: 0px; 
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 50px; 
-
+}
+.img{
+    height: 170px;
+    width: 170px;
 }
