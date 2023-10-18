@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { createClient } from '@supabase/supabase-js';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +36,20 @@ export class LoginPage implements OnInit {
     this.router.navigate(['/recuperar'])
   }
   ngOnInit() {
+    const supabaseUrl = 'https://vgmnxcuuazgilywheivv.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZnbW54Y3V1YXpnaWx5d2hlaXZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc2Mzk2MjAsImV4cCI6MjAxMzIxNTYyMH0.O-wxs7VxhOZ8-SWBE0f-KfxYYOss3QI-wnY0nW8MtU8';
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    async function fetchData() {
+      const { data, error } = await supabase.from('Usuario').select('*'); 
+      if (error) {
+        console.error('Error al recuperar datos:', error);
+      } else {
+        console.log('Datos recuperados:', data);
+      }
+      
+    }
+    fetchData();
   }
   async ingresar(){
     var f = this.formularioLogin.value;

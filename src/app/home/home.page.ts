@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
@@ -34,6 +34,11 @@ export class HomePage implements OnInit {
     }
     this.obtenerLatitudLongitud();
   }
+  ngOnDestroy() {
+    if (this.map) {
+      this.map.remove(); 
+    }
+  }
   async obtenerLatitudLongitud() {
     try {
       const coordinates = await Geolocation.getCurrentPosition();
@@ -50,13 +55,15 @@ export class HomePage implements OnInit {
   }
 
   initializeMap() {
-    this.map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [this.longitud, this.latitud],
-      zoom: 15,
-      accessToken: environment.mapboxToken,
-    });
+    if (!this.map) {
+      this.map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [this.longitud, this.latitud],
+        zoom: 15,
+        accessToken: environment.mapboxToken,
+      });
+    }
   }
 
   obtenerNombreDeCalle() {
