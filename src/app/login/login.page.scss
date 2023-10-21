@@ -8,16 +8,6 @@
     --size: 32px;
     --checkbox-background: rgb(0, 153, 255);
 }
-.check {
-    position: absolute; 
-    top: 280px; 
-    left: 80%;
-    margin-right: 5px;
-    --border-color: black;
-    --checkbox-background-checked: #00b7ff;
-    --size: 32px;
-    --checkbox-background: rgb(0, 153, 255);
-}
 
 ion-checkbox::part(checkbox) {
     border-radius: 50%;
