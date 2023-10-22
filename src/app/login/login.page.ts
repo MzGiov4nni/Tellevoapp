@@ -18,8 +18,8 @@ export class LoginPage implements OnInit {
   constructor(public fb: FormBuilder, public alertController: AlertController, private router: Router, private x: SupabaseApiService) {
 
     this.formularioLogin = this.fb.group({
-      'correo': new FormControl("", Validators.required),
-      'contrasenna': new FormControl("", Validators.required)
+      'user_name': new FormControl("", Validators.required),
+      'password': new FormControl("", Validators.required)
     });
   }
   mostrar() {
@@ -55,9 +55,19 @@ export class LoginPage implements OnInit {
   }
   async ingresar() {
     var f = this.formularioLogin.value;
-    console.log(f)
-    const user = await lastValueFrom(this.x.loginuser(f));
-    console.log(user)
+    console.log(f);
 
+    try {
+      const user = await lastValueFrom(this.x.loginuser(f));
+      if (user) {
+        console.log('Usuario ingresado');
+
+        this.router.navigate(['/intro']);
+      } else {
+        console.log('Usuario no encontrado o error en la solicitud.');
+      }
+    } catch (error) {
+      console.error('Error al obtener los datos del usuario:', error);
+    }
   }
 }

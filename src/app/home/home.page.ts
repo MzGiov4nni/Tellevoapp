@@ -4,6 +4,7 @@ import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
 import { Geolocation } from '@capacitor/geolocation';
 import { HttpClient } from '@angular/common/http';
+import { SupabaseApiService } from '../service/supabase/supabase-api.service';
 
 @Component({
   selector: 'app-home',
@@ -11,12 +12,14 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  nombreUsuario!: string;
+  nombreUsuario: string ='';
   map!: mapboxgl.Map;
   latitud: number = 0;
   longitud: number = 0;
   direccion: string = ''; 
-  constructor(private router: Router, private http: HttpClient) {}
+
+  constructor(private router: Router, private http: HttpClient, private user:SupabaseApiService ) {}
+
 
   goToPerfil() {
     this.router.navigate(['/perfil']);
@@ -24,15 +27,12 @@ export class HomePage implements OnInit {
   goToLogin() {
     this.router.navigate(['/login']);
   }
-
-
+  
   async ngOnInit() {
-    const usuarioJSON = localStorage.getItem('usuario');
-    if (usuarioJSON) {
-      const usuario = JSON.parse(usuarioJSON);
-      this.nombreUsuario = usuario.nombre;
-    }
+    const datos = this.user.getDatoGuardado()
+    this.nombreUsuario = datos.user_name
     this.obtenerLatitudLongitud();
+    console.log(datos)
   }
   ngOnDestroy() {
     if (this.map) {
