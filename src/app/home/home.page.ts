@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
 import { Geolocation } from '@capacitor/geolocation';
 import { HttpClient } from '@angular/common/http';
 import { SupabaseApiService } from '../service/supabase/supabase-api.service';
+import { lastValueFrom } from 'rxjs';
+
 
 @Component({
   selector: 'app-home',
@@ -12,15 +14,18 @@ import { SupabaseApiService } from '../service/supabase/supabase-api.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+  
   nombreUsuario: string ='';
+  id:number=0;
   map!: mapboxgl.Map;
   latitud: number = 0;
   longitud: number = 0;
   direccion: string = ''; 
 
-  constructor(private router: Router, private http: HttpClient, private user:SupabaseApiService ) {}
-
-
+  constructor(private router: Router, private http: HttpClient, private route: ActivatedRoute, private supa: SupabaseApiService ) {}
+  goToviajes() {
+    this.router.navigate(['/pedir-viajes']);
+  }
   goToPerfil() {
     this.router.navigate(['/perfil']);
   }
@@ -29,10 +34,15 @@ export class HomePage implements OnInit {
   }
   
   async ngOnInit() {
-    const datos = this.user.getDatoGuardado()
-    this.nombreUsuario = datos.user_name
     this.obtenerLatitudLongitud();
-    console.log(datos)
+    this.route.params.subscribe(params => {
+      this.id = params['id'];
+      console.log('hola grupo '+this.id)
+    });
+    const Usuario = await lastValueFrom(this.supa.llamarUser(this.id));
+    console.log('id fuera '+ this.id)
+    console.log(Usuario)
+    this.nombreUsuario = Usuario.user_name;
   }
   ngOnDestroy() {
     if (this.map) {

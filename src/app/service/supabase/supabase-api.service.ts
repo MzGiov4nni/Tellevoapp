@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
 import { map } from 'rxjs';
 
 
@@ -8,7 +7,6 @@ import { map } from 'rxjs';
   providedIn: 'root'
 })
 export class SupabaseApiService {
-  private datoGuardado: any;
 
   constructor(private _http:HttpClient) { }
 
@@ -20,14 +18,19 @@ export class SupabaseApiService {
   }
   loginuser(Usuario:any){
     return this._http.get<any>('https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Usuario?select=*&user_name=eq.'+Usuario.user_name+'&password=eq.'+Usuario.password,{headers:this.supabaseHeaders}).pipe(
-      map((data) => {    
-          this.datoGuardado = data[0];   
+      map((data) => {       
           return data[0];
       })
     );
   }
-
-  getDatoGuardado(): any {
-    return this.datoGuardado;
+  llamarUser(id_user:any){
+    return this._http.get<any>('https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Usuario?select=*&id=eq.'+id_user,{headers:this.supabaseHeaders}).pipe(
+      map((data) => {       
+          return data[0];
+      })
+    );
+  }
+  viajes(){
+    return this._http.get<any>('https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Viaje?select=*',{headers:this.supabaseHeaders});
   }
 }

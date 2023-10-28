@@ -5,16 +5,16 @@
         <ion-title>Te Llevo app</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="menu_dentro" (click)="goToPerfil()">
-      <div class="menu_perfil">
+    <ion-content class="menu_dentro">
+      <div class="menu_perfil"(click)="goToPerfil()">
         <img class="img" src="">
         <h2 class="text">{{ nombreUsuario }}</h2>  
       </div>
       <div class="orden_boton">
-        <ion-button class="button_menu">Pedir viajes</ion-button>
-        <ion-button class="button_menu">Mapa</ion-button>
-        <ion-button class="button_menu">Pedir viajes</ion-button>
-        <ion-button class="button_menu">Pedir viajes</ion-button>
+        <ion-button class="button_menu" (click)="goToviajes()">Pedir viajes</ion-button>
+        <!-- <ion-button class="button_menu">Mapa</ion-button>-->
+        <!--<ion-button class="button_menu">Pedir viajes</ion-button>-->
+        <!-- <ion-button class="button_menu">Pedir viajes</ion-button>-->
       </div>
       <div class="h6_menu">
         <h6 class="elemento1 text">ejemplo@duocuc.cl</h6>
@@ -43,7 +43,7 @@
       <br>
       <p class="text">{{ direccion }}</p>
       <br>
-      <div id="map"></div>
+      
     </ion-content>
   </div>
 </ion-app>

@@ -1,5 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-intro',
@@ -7,14 +8,28 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['intro.page.scss'],
 })
 export class IntroPage {
-  constructor(private navCtrl: NavController, private ngZone: NgZone) {
+  id: any;
+
+  constructor(
+    private navCtrl: NavController,
+    private ngZone: NgZone,
+    private route: ActivatedRoute
+  ) {
     const tiempoMostrado = 3000; // Tiempo en milisegundos (3 segundos en este caso)
-    
+
+    this.route.params.subscribe((params) => {
+      this.id = params['id'];
+    });
+
     setTimeout(() => {
-      // Navega a la página siguiente después del tiempo especificado
       this.ngZone.run(() => {
-        this.navCtrl.navigateForward('/home');
+        this.navigateToHome();
       });
     }, tiempoMostrado);
+  }
+
+  // Función para navegar a la página "home" con el parámetro "id"
+  navigateToHome() {
+    this.navCtrl.navigateForward(['/home', this.id]);
   }
 }

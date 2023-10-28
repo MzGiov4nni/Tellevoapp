@@ -6,13 +6,14 @@ import { createClient } from '@supabase/supabase-js';
 import { SupabaseApiService } from '../service/supabase/supabase-api.service';
 import { lastValueFrom } from 'rxjs';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
+  id: number = 0;
   formularioLogin: FormGroup;
 
   constructor(public fb: FormBuilder, public alertController: AlertController, private router: Router, private x: SupabaseApiService) {
@@ -61,8 +62,12 @@ export class LoginPage implements OnInit {
       const user = await lastValueFrom(this.x.loginuser(f));
       if (user) {
         console.log('Usuario ingresado');
+        console.log(user)
+        this.id = user.id;
+        console.log(this.id);
+        
+        this.router.navigate(['/intro',{id:this.id}]);
 
-        this.router.navigate(['/intro']);
       } else {
         console.log('Usuario no encontrado o error en la solicitud.');
       }

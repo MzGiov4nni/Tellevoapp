@@ -5,13 +5,13 @@ import { PreloadAllModules } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
-  {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
+  },
+  {
+    path: 'home/:id',
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
   {
     path: 'login',
@@ -26,14 +26,19 @@ const routes: Routes = [
   {
     path: 'registro',
     loadChildren: () => import('./registro/registro.module').then(m => m.RegistroPageModule)
-  },  {
+  },
+  {
     path: 'intro',
     loadChildren: () => import('./intro/intro.module').then( m => m.IntroPageModule)
   },
   {
     path: 'perfil',
     loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule)
+  },  {
+    path: 'pedir-viajes',
+    loadChildren: () => import('./pedir-viajes/pedir-viajes.module').then( m => m.PedirViajesPageModule)
   },
+
 
 ];
 

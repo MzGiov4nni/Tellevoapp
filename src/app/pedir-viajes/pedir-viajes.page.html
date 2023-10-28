@@ -1,0 +1,15 @@
+<ion-content class="cuerpo">
+  <ion-list>
+    <ion-item *ngFor="let p of datosDeViajes">
+      <div class="container">
+
+        <h5 class="item">{{ p.id_chofer }}</h5>
+        <h5 class="item">{{ p.destino }}</h5>
+        <h5 class="item">{{ p.hora_ini }}</h5>
+        <h5 class="item" *ngIf="p.estado_viaje; else noEstadoViaje">Sí</h5>
+        <ng-template #noEstadoViaje><h5 class="item">No</h5></ng-template>
+        <h5 class="item">{{ p.asientos }}</h5>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>
