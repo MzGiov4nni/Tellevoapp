@@ -33,4 +33,25 @@ export class SupabaseApiService {
   viajes(){
     return this._http.get<any>('https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Viaje?select=*',{headers:this.supabaseHeaders});
   }
+  crearViaje(datosParaInsertar: any){
+    return this._http.post<any>('https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Viajes_alumnos', datosParaInsertar, {headers:this.supabaseHeaders});
+  }
+  llamarViajes(id_viaje:any){
+    return this._http.get<any>('https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Viaje?select=*&id=eq.'+id_viaje,{headers:this.supabaseHeaders}).pipe(
+      map((data) => {
+        return data[0];
+      })
+    )
+  }
+  modificarViaje(id_viaje: any, datosModificar: any) {
+    const url = `https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Viaje?id=eq.${id_viaje}`;
+    const data = { asientos: datosModificar };
+    return this._http.patch<any>(url, data, { headers: this.supabaseHeaders });
+  }
+
+  cambiarEstado(id_viaje: any){
+    const url = `https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Viaje?id=eq.${id_viaje}`;
+    const data = { estado_viaje: false  };
+    return this._http.patch<any>(url, data, { headers: this.supabaseHeaders });
+  }
 }

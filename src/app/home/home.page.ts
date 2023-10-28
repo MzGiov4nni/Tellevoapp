@@ -24,7 +24,7 @@ export class HomePage implements OnInit {
 
   constructor(private router: Router, private http: HttpClient, private route: ActivatedRoute, private supa: SupabaseApiService ) {}
   goToviajes() {
-    this.router.navigate(['/pedir-viajes']);
+    this.router.navigate(['/pedir-viajes',{id:this.id}]);
   }
   goToPerfil() {
     this.router.navigate(['/perfil']);
