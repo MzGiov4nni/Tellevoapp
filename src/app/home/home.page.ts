@@ -14,7 +14,7 @@ import { lastValueFrom } from 'rxjs';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  
+  // Declarar propiedades de la clase con sus valores iniciales
   nombreUsuario: string ='';
   id:number=0;
   map!: mapboxgl.Map;
@@ -23,74 +23,116 @@ export class HomePage implements OnInit {
   direccion: string = ''; 
 
   constructor(private router: Router, private http: HttpClient, private route: ActivatedRoute, private supa: SupabaseApiService ) {}
+  
+  // Función para navegar a la página de pedir viajes 
   goToviajes() {
+    // Utiliza el Router para navegar a la ruta 'pedir-viajes' con el parámetro 'id'
     this.router.navigate(['/pedir-viajes',{id:this.id}]);
   }
+
+  // Función para navegar a la página de perfil 
   goToPerfil() {
+    // Utiliza el Router para navegar a la ruta 'perfil' con el parámetro 'id'
     this.router.navigate(['/perfil',{id:this.id}]);
   }
+
+  // Función para navegar a la página de crear viajes 
   goTocrearViajes() {
+    // Utiliza el Router para navegar a la ruta 'crear-viaje' con el parámetro 'id'
     this.router.navigate(['/crear-viaje',{id:this.id}]);
   }
+
+  // Función para navegar a la página de inicio de sesión 
   goToLogin() {
+    // Utiliza el Router para navegar a la ruta 'login'
     this.router.navigate(['/login']);
   }
-  
-  async ngOnInit() {
-    this.obtenerLatitudLongitud();
-    this.route.params.subscribe(params => {
-      this.id = params['id'];
-      console.log('hola grupo '+this.id)
-    });
-    const Usuario = await lastValueFrom(this.supa.llamarUser(this.id));
-    console.log('id fuera '+ this.id)
-    console.log(Usuario)
-    this.nombreUsuario = Usuario.user_name;
-  }
-  ngOnDestroy() {
-    if (this.map) {
-      this.map.remove(); 
-    }
-  }
-  async obtenerLatitudLongitud() {
-    try {
-      const coordinates = await Geolocation.getCurrentPosition();
-      this.latitud = coordinates.coords.latitude;
-      this.longitud = coordinates.coords.longitude;
-      console.log('Latitud:', this.latitud);
-      console.log('Longitud:', this.longitud);
 
+   // esta funcion realizara todas los componetes cuando la pagina termina de cargar 
+  async ngOnInit() { // async para declarar una función asincrónica
+
+    // El método subscribe se utiliza para suscribirse a este observable y escuchar los cambios en los parámetros de la ruta
+    this.route.params.subscribe(params => {
+      this.id = params['id'];  //guardas el parametro en la variable 'id'
+      console.log('hola usuario '+this.id) //se muestra en la consola
+    });
+
+    // se llama la funcion llamada 'obtenerLatitudLongitud'
+    this.obtenerLatitudLongitud();
+
+    // Llama al método 'llamarUser' del servicio 'supa' y se guardan los datos en  la variable Usuario siendo llamado por su 'id'
+    const Usuario = await lastValueFrom(this.supa.llamarUser(this.id));
+    console.log(Usuario) //se muestra en la consola
+    // de la variable Usuario solo sacamos el User_name y la guardamos en la variable 'nombreUsuario' que usamos en el HTML para mostrar el nombre del usuario 
+    this.nombreUsuario = Usuario.user_name; 
+  }
+
+  // Función para obtener la latitud y longitud de la ubicación actual
+  async obtenerLatitudLongitud() { // async para declarar una función asincrónica
+    try {
+
+      // en la variable 'coordinates' se guarda los datos que trae la libreria de geolocation de ionic 
+      const coordinates = await Geolocation.getCurrentPosition();
+      
+      // en la variable latitud se guarda el dato de latitud sacado de la variable'coordinates'
+      this.latitud = coordinates.coords.latitude;
+      // en la variable longitud se guarda el dato de longitud sacado de la variable'coordinates'
+      this.longitud = coordinates.coords.longitude;
+      
+      console.log('Latitud:', this.latitud); //se muestra en la consola
+      console.log('Longitud:', this.longitud); //se muestra en la consola
+
+      // se llama la funcion llamada 'obtenerNombreDeCalle'
       this.obtenerNombreDeCalle();
+
+      // se llama la funcion llamada 'initializeMap'
       this.initializeMap();
+
     } catch (error) {
+      // si da algun error se mostrara en consola el error
       console.error('Error al obtener la ubicación:', error);
     }
   }
 
+  // Función para inicializar el mapa
   initializeMap() {
+    //si hay una variable llamada 'map' entrar al if y se rellena con los siguientes datos 
     if (!this.map) {
       this.map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [this.longitud, this.latitud],
-        zoom: 15,
-        accessToken: environment.mapboxToken,
+        container: 'map',  // ID del contenedor HTML donde se mostrará el mapa
+        style: 'mapbox://styles/mapbox/streets-v11',  // Estilo del mapa (los estilos ya los trae mapbox)
+        center: [this.longitud, this.latitud], // Centro del mapa usammos las variables 'longitud' y 'latitud' para que el mapa muestre nuestra ubicación
+        zoom: 15, // Nivel de zoom que comieza el mapa 
+        accessToken: environment.mapboxToken,  // Token de acceso de Mapbox traido desde 'environment'
       });
     }
   }
 
+   // Función para obtener el nombre de la calle a partir de las coordenadas
   obtenerNombreDeCalle() {
-    const apiKey = environment.mapboxToken;
+    const apiKey = environment.mapboxToken; // Token de acceso de Mapbox traido desde 'environment'
+    // Construir la URL para la solicitud de geocodificación primero ponemos 'longitud' luego 'latitud' y al final la 'apiKey'
     const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.longitud},${this.latitud}.json?access_token=${apiKey}`;
 
+    // Realizar una solicitud HTTP GET a la URL construida
     this.http.get(url).subscribe((response: any) => {
+
+       // Comprobar si la respuesta contiene características geográficas y si hay al menos una
       if (response.features && response.features.length > 0) {
+
+         // Asignar el nombre de la calle (place_name) desde la primera característica a la variable 'direccion'
         this.direccion = response.features[0].place_name;
-        console.log('Dirección:', this.direccion);
+
+        console.log('Dirección:', this.direccion); //se muestra en la consola
+      
       } else {
+
+        // Si no se encuentra una dirección válida, registrar un mensaje de error
         console.error('No se encontró una dirección válida para estas coordenadas.');
       }
     }, (error) => {
+
+       // En caso de error en la solicitud, registrar un mensaje de error
       console.error('Error al realizar la solicitud de geocodificación:', error);
     });
   }
