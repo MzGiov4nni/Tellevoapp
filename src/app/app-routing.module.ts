@@ -38,6 +38,10 @@ const routes: Routes = [
     path: 'pedir-viajes',
     loadChildren: () => import('./pedir-viajes/pedir-viajes.module').then( m => m.PedirViajesPageModule)
   },
+  {
+    path: 'crear-viaje',
+    loadChildren: () => import('./crear-viaje/crear-viaje.module').then( m => m.CrearViajePageModule)
+  },
 
 
 ];

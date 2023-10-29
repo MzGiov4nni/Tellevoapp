@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 
 @Injectable({
@@ -53,5 +53,10 @@ export class SupabaseApiService {
     const url = `https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Viaje?id=eq.${id_viaje}`;
     const data = { estado_viaje: false  };
     return this._http.patch<any>(url, data, { headers: this.supabaseHeaders });
+  }
+
+  crearViajeCero(datosRecibidos: any): Observable<any> {
+    const url = 'https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Viaje';
+    return this._http.post(url, datosRecibidos, { headers: this.supabaseHeaders });
   }
 }

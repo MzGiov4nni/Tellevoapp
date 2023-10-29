@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SupabaseApiService } from '../service/supabase/supabase-api.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { NavController } from '@ionic/angular';
 
@@ -15,7 +15,10 @@ export class PedirViajesPage implements OnInit {
   nombreUsuario: string = '';
   idSeleccionado: number = 0;
 
-  constructor(private supa: SupabaseApiService,private route: ActivatedRoute,private navCtrl: NavController) {}
+  constructor(private supa: SupabaseApiService,private router: Router,private route: ActivatedRoute,private navCtrl: NavController) {}
+  goToHome(){
+    this.router.navigate(['/home',this.id]);
+  }
 
   async ngOnInit() {
     this.supa.viajes().subscribe((data) => {
@@ -27,18 +30,7 @@ export class PedirViajesPage implements OnInit {
       console.log('viajes '+this.id)
     });
   }
-  /*sync estadoViaje(){
-    const datosviajes = await lastValueFrom(this.supa.llamarViajes(this.idSeleccionado));
-    const asientos = datosviajes.asientos
-    if (asientos >= 1) {
-      
-      console.log('if no es cero')
-      //this.cambiarEstado();
-    }else{
-      console.log('else es cero')
-  
-    }
-  }*/
+
   async function () {
     const datosviajes = await lastValueFrom(this.supa.llamarViajes(this.idSeleccionado));
     console.log(datosviajes)
@@ -49,7 +41,6 @@ export class PedirViajesPage implements OnInit {
     if (asientosbd ===0) {
       
       console.log('if es 0')
-      
       this.cambiarEstado();
       
     }else{
@@ -59,7 +50,6 @@ export class PedirViajesPage implements OnInit {
     this.supa.modificarViaje(this.idSeleccionado, asientosbd).subscribe(
       (response) => {
         console.log('Datos modificados exitosamente:', response);
-        
         
       },
       (error) => {
@@ -87,17 +77,15 @@ export class PedirViajesPage implements OnInit {
   enviarId(id: number) {
     this.idSeleccionado = id;
     console.log('ID enviada al TypeScript:', this.idSeleccionado);
-    //this.estadoViaje();
+
 
     this.function();
     
-
-    /*const datosParaInsertar = {
+    const datosParaInsertar = {
       id_usuario: this.id,
       id_viajes: this.idSeleccionado,
       
     };
-
     
     this.supa.crearViaje(datosParaInsertar).subscribe(
       (response) => {
@@ -106,7 +94,7 @@ export class PedirViajesPage implements OnInit {
       (error) => {
         console.error('Error al insertar datos:', error);
       }
-    );*/
+    );
   }
   
   recargarPagina() {

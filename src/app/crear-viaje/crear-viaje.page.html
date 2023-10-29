@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar class="cuerpo">
+    <ion-buttons slot="start">
+      <ion-button (click)="goToHome()" color="light">home</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="cuerpo" >
+<div>
+  <form (ngSubmit)="subirDato()">
+    <ion-item>
+      <ion-label position="floating">Asientos</ion-label>
+      <ion-input [(ngModel)]="asientos" name="asientos" type="number"></ion-input>
+    </ion-item>
+    <ion-item lines="none" class="custom-item">
+      <ion-label position="floating" class="letra">Destino</ion-label>
+      <ion-input [(ngModel)]="destino" name="destino" class="custom-input" ></ion-input>
+    </ion-item>
+    <ion-item lines="none" class="custom-item">
+      <ion-label position="floating" class="letra">Hora de inicio</ion-label>
+      <ion-input [(ngModel)]="hora_ini" name="hora_ini" type="time" class="custom-input" ></ion-input>
+    </ion-item>
+    <ion-item lines="none" class="custom-item">
+      <ion-label class="letra">Estado del viaje</ion-label>
+      <ion-checkbox [(ngModel)]="estado_viaje" name="estado_viaje" class="check"></ion-checkbox>
+    </ion-item>
+    <ion-button type="submit" expand="full" [disabled]="!asientos || !destino || !hora_ini">Enviar</ion-button>
+  </form>
+</div>
+</ion-content>

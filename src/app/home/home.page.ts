@@ -27,7 +27,10 @@ export class HomePage implements OnInit {
     this.router.navigate(['/pedir-viajes',{id:this.id}]);
   }
   goToPerfil() {
-    this.router.navigate(['/perfil']);
+    this.router.navigate(['/perfil',{id:this.id}]);
+  }
+  goTocrearViajes() {
+    this.router.navigate(['/crear-viaje',{id:this.id}]);
   }
   goToLogin() {
     this.router.navigate(['/login']);
