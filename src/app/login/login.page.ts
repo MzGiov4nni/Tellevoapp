@@ -16,8 +16,14 @@ export class LoginPage implements OnInit {
   // Declarar propiedades de la clase con sus valores iniciales
   id: number = 0;
   formularioLogin: FormGroup;
+  myForm: FormGroup;
 
-  constructor(public fb: FormBuilder, public alertController: AlertController, private router: Router, private x: SupabaseApiService) {
+  constructor(public fb: FormBuilder, public alertController: AlertController, private router: Router, private x: SupabaseApiService, private formBuilder: FormBuilder) {
+
+    this.myForm = this.formBuilder.group({
+      user_name: [''],
+      password:['']
+    });
 
     // Configurar el formulario de inicio de sesión utilizando FormBuilder
     this.formularioLogin = this.fb.group({
@@ -99,6 +105,8 @@ export class LoginPage implements OnInit {
         // Utiliza el Router para navegar a la ruta 'intro' con el parámetro 'id'
         this.router.navigate(['/intro',{id:this.id}]);
 
+        this.limpiar();
+
       } else {
         
         // si no se encuente usuari se muestra este mensaje en consola 
@@ -109,5 +117,10 @@ export class LoginPage implements OnInit {
       // si da algun error se mostrara en consola el error
       console.error('Error al obtener los datos del usuario:', error);
     }
+  }
+
+  limpiar(){
+    this.myForm.get('user_name')?.setValue('');
+    this.myForm.get('password')?.setValue('');
   }
 }
