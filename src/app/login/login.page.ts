@@ -5,6 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { createClient } from '@supabase/supabase-js';
 import { SupabaseApiService } from '../service/supabase/supabase-api.service';
 import { lastValueFrom } from 'rxjs';
+import { ToastController } from '@ionic/angular';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class LoginPage implements OnInit {
   formularioLogin: FormGroup;
   myForm: FormGroup;
 
-  constructor(public fb: FormBuilder, public alertController: AlertController, private router: Router, private x: SupabaseApiService, private formBuilder: FormBuilder) {
+  constructor(public fb: FormBuilder, public alertController: AlertController, private router: Router, private x: SupabaseApiService, private formBuilder: FormBuilder,private toastController: ToastController) {
 
     this.myForm = this.formBuilder.group({
       user_name: [''],
@@ -105,22 +106,45 @@ export class LoginPage implements OnInit {
         // Utiliza el Router para navegar a la ruta 'intro' con el parámetro 'id'
         this.router.navigate(['/intro',{id:this.id}]);
 
+        // se llama la funcion con nombre 'limpiar'
         this.limpiar();
 
       } else {
         
         // si no se encuente usuari se muestra este mensaje en consola 
         console.log('Usuario no encontrado o error en la solicitud.');
+
+        // se llama la funcion con nombre 'mostrarMensaje'
+        this.mostrarMensaje();
       }
     } catch (error) {
 
       // si da algun error se mostrara en consola el error
-      console.error('Error al obtener los datos del usuario:', error);
+      console.error('Error al obtener los datos del usuario:', error)
+      
     }
   }
 
+  //funcion para limpiar los input 
   limpiar(){
+
+    // se ponen los valires de los input en valores limpios 
     this.myForm.get('user_name')?.setValue('');
+    // se ponen los valires de los input en valores limpios 
     this.myForm.get('password')?.setValue('');
+  }
+
+  // Función asincrónica para mostrar un mensaje tipo Toast
+  async mostrarMensaje() {
+
+    // Crear un Toast con el mensaje, duración y posición específicos
+    const toast = await this.toastController.create({
+      message: 'El usuario no existe o la contraseña no es valida', // Mensaje que se mostrará
+      duration: 2000, // Duración en milisegundos durante la cual se mostrará el mensaje (2 segundos en este caso)
+      position: 'middle' // Posición del mensaje en la pantalla (centro en este caso)
+    });
+
+    // Mostrar el Toast en la interfaz
+    toast.present();
   }
 }

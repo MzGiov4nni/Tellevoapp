@@ -13,6 +13,9 @@ export class PerfilPage implements OnInit {
   // Declarar propiedades de la clase con sus valores iniciales
   nombreUsuario!: string;
   id: number = 0;
+  direccion: string='';
+  celular:number=0;
+
 
   constructor(private route: ActivatedRoute, private supa: SupabaseApiService) { }
 
@@ -28,8 +31,14 @@ export class PerfilPage implements OnInit {
     // Llama al método 'llamarUser' del servicio 'supa' y se guardan los datos en  la variable Usuario siendo llamado por su 'id'
     const Usuario = await lastValueFrom(this.supa.llamarUser(this.id));
     console.log(Usuario); // se muestra en consola
+
     // de la variable Usuario solo sacamos el User_name y la guardamos en la variable 'nombreUsuario' que usamos en el HTML para mostrar el nombre del usuario 
     this.nombreUsuario = Usuario.user_name;
+    // de la variable Usuario solo sacamos el User_name y la guardamos en la variable 'celular' que usamos en el HTML para mostrar el nombre del usuario 
+    this.celular= Usuario.celular;
+    // de la variable Usuario solo sacamos el User_name y la guardamos en la variable 'direccion' que usamos en el HTML para mostrar el nombre del usuario 
+    this.direccion= Usuario.direccion
+
   }
 
 

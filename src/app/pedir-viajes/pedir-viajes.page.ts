@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SupabaseApiService } from '../service/supabase/supabase-api.service';
 import { ActivatedRoute, Router} from '@angular/router';
 import { lastValueFrom } from 'rxjs';
-import { NavController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-pedir-viajes',
@@ -17,7 +17,7 @@ export class PedirViajesPage implements OnInit {
   nombreUsuario: string = '';
   idSeleccionado: number = 0;
   
-  constructor(private supa: SupabaseApiService,private router: Router,private route: ActivatedRoute,private navCtrl: NavController) {}
+  constructor(private supa: SupabaseApiService,private router: Router,private route: ActivatedRoute) {}
   
   // Función para navegar a la página de inicio
   goToHome(){
@@ -39,6 +39,7 @@ export class PedirViajesPage implements OnInit {
       this.id = params['id'];  //guardas el parametro en la variable 'id'
       console.log('viajes '+this.id) // se muestra en consola
     });
+    
   }
 
   // Función para manejar la lógica al seleccionar un viaje

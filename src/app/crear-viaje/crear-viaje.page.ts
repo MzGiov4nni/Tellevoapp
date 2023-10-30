@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SupabaseApiService } from '../service/supabase/supabase-api.service';
 import { lastValueFrom } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-crear-viaje',
@@ -17,7 +17,7 @@ export class CrearViajePage implements OnInit {
   hora_ini: string='';
   estado_viaje: boolean = true;
   id_chofer: number = 0;
-  constructor(private route: ActivatedRoute, private supa: SupabaseApiService,private router: Router,private formBuilder: FormBuilder) {
+  constructor(private route: ActivatedRoute, private supa: SupabaseApiService,private router: Router,private toastController: ToastController) {
   }
    // Función para navegar a la página de inicio
   goToHome(){
@@ -57,11 +57,28 @@ export class CrearViajePage implements OnInit {
       this.supa.crearViajeCero(datos_recibidos).subscribe(
         (response) => {
           console.log('Datos subidos exitosamente', response); // Registra un mensaje de éxito y la respuesta
+          
+          // se llama la funcion con nombre 'mostrarMensaje'
+          this.mostrarMensaje();
         },
         (error) => {
           console.error('Error al subir datos', error); // Registra un mensaje de error y el objeto de error
         }
       );
     }
+  }
+  
+  // Función asincrónica para mostrar un mensaje tipo Toast
+  async mostrarMensaje() {
+
+    // Crear un Toast con el mensaje, duración y posición específicos
+    const toast = await this.toastController.create({
+      message: 'Datos subidos exitosamente', // Mensaje que se mostrará
+      duration: 2000, // Duración en milisegundos durante la cual se mostrará el mensaje (2 segundos en este caso)
+      position: 'middle' // Posición del mensaje en la pantalla (centro en este caso)
+    });
+
+    // Mostrar el Toast en la interfaz
+    toast.present();
   }
 }
