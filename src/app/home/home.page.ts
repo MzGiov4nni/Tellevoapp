@@ -25,6 +25,7 @@ export class HomePage implements OnInit {
   direccion: string = ''; 
   private supabase;
   imageUrl: string = '';
+  nombreFoto: string='';
 
   constructor(private router: Router, private http: HttpClient, private route: ActivatedRoute, private supa: SupabaseApiService,private renderer: Renderer2, private el: ElementRef ) {    // Configuración de Supabase para llamarlo con js o ts pero solo lo usamos aqui todas las otras formas son por otro
     const supabaseUrl = 'https://vgmnxcuuazgilywheivv.supabase.co'; // guardamos la URL en la variable 'supabaseUrl'
@@ -75,8 +76,11 @@ export class HomePage implements OnInit {
     console.log(Usuario) //se muestra en la consola
     // de la variable Usuario solo sacamos el User_name y la guardamos en la variable 'nombreUsuario' que usamos en el HTML para mostrar el nombre del usuario 
     this.nombreUsuario = Usuario.user_name; 
+    // de la variable 'Usuario' solo sacamos el foto y la guardamos en la variable 'nombreFoto' que usamos en el HTML para mostrar el nombre del usuario
+    this.nombreFoto = Usuario.foto;
 
-    
+    //se llama la funcion con nombre 'cargarImagen'
+    this.cargarImagen()
   }
 
   // Función para obtener la latitud y longitud de la ubicación actual
@@ -148,26 +152,26 @@ export class HomePage implements OnInit {
       console.error('Error al realizar la solicitud de geocodificación:', error);
     });
   }
-  /*async subirAvatar(event: any) {
-    const file = event.target.files[0]; 
 
-    if (file) {
-      try {
-        const { data, error } = await this.supabase
-          .storage
-          .from('ionic-fotos')
-          .upload(file.name, file);
+  // Función asincrónica para cargar una imagen
+  async  cargarImagen() {
 
+    const bucketName = 'ionic-fotos'; // Nombre del contenedor de almacenamiento
+    const fileName = this.nombreFoto; // Nombre del archivo de imagen a cargar
+    const expira = 60 * 60 * 24 * 60; // Genera una URL firmada válida por 2 meses (60 días)
+    // Utilizar el servicio de almacenamiento de Supabase
+    this.supabase.storage
+      .from(bucketName) // Acceder al contenedor de almacenamiento
+      .createSignedUrl(fileName, expira) // Crear una URL firmada válida por 3600 segundos (1 hora)
+      .then(({ data, error }) => {
+        
         if (error) {
-          console.error('Error al subir el archivo:', error);
+           // Si ocurre un error, mostrar un mensaje de error en la consola
+          console.error('Error al obtener la URL de la imagen', error); // se muestra en consola
         } else {
-          console.log('Archivo subido con éxito:', data);
-          
-          
+          // Si no hay error, asignar la URL firmada de la imagen a la variable 'imageUrl'
+          this.imageUrl = data.signedUrl;
         }
-      } catch (error) {
-        console.error('Error al subir el archivo:', error);
-      }
-    }
-  } */
+      });
+  }
 }

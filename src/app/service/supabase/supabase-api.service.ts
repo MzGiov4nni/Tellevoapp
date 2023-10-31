@@ -67,4 +67,19 @@ export class SupabaseApiService {
       })
     );
   }
+  subirFoto(id: any, foto: any) {
+    const url = 'https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Usuario?id=eq.'+id;
+    const data = { foto: foto };
+  
+    console.log('URL:', url); // Agrega esta línea para registrar la URL
+    console.log('Data:', data); // Agrega esta línea para registrar los datos
+  
+    return this._http.patch<any>(url, data, { headers: this.supabaseHeaders })
+      .subscribe(response => {
+        console.log('Actualización exitosa:', response); // Agrega esta línea para registrar la respuesta exitosa
+      }, error => {
+        console.error('Error al actualizar:', error); // Agrega esta línea para registrar cualquier error
+      });
+  }
+
 }

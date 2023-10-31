@@ -7,11 +7,12 @@
 </ion-header>
 
 <ion-content class="cuerpo">
-  <img class="img" src="">
-  <h2 class="text">nombre: {{ nombreUsuario }}</h2>
+  <img class="img" src="{{ imageUrl }}">
+  <h2 class="text">{{ nombreUsuario }}</h2>
   <h3 class="text2">direccion: {{ direccion }}</h3>
   <h3 class="text2">Nro de celular: {{celular}}</h3>
-
+  <br>
+  <input type="file" (change)="subirAvatar($event)" color="light">
 </ion-content>  
 <ion-footer>
   <h3 class="text2">version: 1.0</h3>
