@@ -59,4 +59,12 @@ export class SupabaseApiService {
     const url = 'https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Viaje';
     return this._http.post(url, datosRecibidos, { headers: this.supabaseHeaders });
   }
+
+  eresPasajero(id1:any, id2:any){
+    return this._http.get<any>('https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Viajes_alumnos?select=*&id_usuario=eq.'+id1+'&id_viajes=eq.'+id2,{headers:this.supabaseHeaders}).pipe(
+      map((data) => {       
+          return data[0];
+      })
+    );
+  }
 }

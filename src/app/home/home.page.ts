@@ -6,6 +6,8 @@ import { Geolocation } from '@capacitor/geolocation';
 import { HttpClient } from '@angular/common/http';
 import { SupabaseApiService } from '../service/supabase/supabase-api.service';
 import { lastValueFrom } from 'rxjs';
+import { createClient } from '@supabase/supabase-js';
+import {  Renderer2, ElementRef } from '@angular/core';
 
 
 @Component({
@@ -21,8 +23,16 @@ export class HomePage implements OnInit {
   latitud: number = 0;
   longitud: number = 0;
   direccion: string = ''; 
+  private supabase;
+  imageUrl: string = '';
 
-  constructor(private router: Router, private http: HttpClient, private route: ActivatedRoute, private supa: SupabaseApiService ) {}
+  constructor(private router: Router, private http: HttpClient, private route: ActivatedRoute, private supa: SupabaseApiService,private renderer: Renderer2, private el: ElementRef ) {    // Configuración de Supabase para llamarlo con js o ts pero solo lo usamos aqui todas las otras formas son por otro
+    const supabaseUrl = 'https://vgmnxcuuazgilywheivv.supabase.co'; // guardamos la URL en la variable 'supabaseUrl'
+    // guardamos a apikey en la variable 'supabaseKey'
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZnbW54Y3V1YXpnaWx5d2hlaXZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc2Mzk2MjAsImV4cCI6MjAxMzIxNTYyMH0.O-wxs7VxhOZ8-SWBE0f-KfxYYOss3QI-wnY0nW8MtU8';
+    this.supabase = createClient(supabaseUrl, supabaseKey); // creamos el clientes para que haga los trabajos de la vase de datos
+}
+  
   
   // Función para navegar a la página de pedir viajes 
   goToviajes() {
@@ -65,6 +75,8 @@ export class HomePage implements OnInit {
     console.log(Usuario) //se muestra en la consola
     // de la variable Usuario solo sacamos el User_name y la guardamos en la variable 'nombreUsuario' que usamos en el HTML para mostrar el nombre del usuario 
     this.nombreUsuario = Usuario.user_name; 
+
+    
   }
 
   // Función para obtener la latitud y longitud de la ubicación actual
@@ -136,4 +148,26 @@ export class HomePage implements OnInit {
       console.error('Error al realizar la solicitud de geocodificación:', error);
     });
   }
+  /*async subirAvatar(event: any) {
+    const file = event.target.files[0]; 
+
+    if (file) {
+      try {
+        const { data, error } = await this.supabase
+          .storage
+          .from('ionic-fotos')
+          .upload(file.name, file);
+
+        if (error) {
+          console.error('Error al subir el archivo:', error);
+        } else {
+          console.log('Archivo subido con éxito:', data);
+          
+          
+        }
+      } catch (error) {
+        console.error('Error al subir el archivo:', error);
+      }
+    }
+  } */
 }

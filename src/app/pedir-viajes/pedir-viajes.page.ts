@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SupabaseApiService } from '../service/supabase/supabase-api.service';
 import { ActivatedRoute, Router} from '@angular/router';
 import { lastValueFrom } from 'rxjs';
+import { ToastController } from '@ionic/angular';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class PedirViajesPage implements OnInit {
   nombreUsuario: string = '';
   idSeleccionado: number = 0;
   
-  constructor(private supa: SupabaseApiService,private router: Router,private route: ActivatedRoute) {}
+  constructor(private supa: SupabaseApiService,private router: Router,private route: ActivatedRoute,private toastController: ToastController) {}
   
   // Función para navegar a la página de inicio
   goToHome(){
@@ -82,7 +83,6 @@ export class PedirViajesPage implements OnInit {
 
   // Función para cambiar el estado del viaje
   cambiarEstado() {
-
     // Llama al método 'cambiarEstado' del servicio 'supa' y se llaman los dato segun su id que esta en la variable 'idSeleccionado'
     this.supa.cambiarEstado(this.idSeleccionado).subscribe(
       (response) => {
@@ -97,36 +97,90 @@ export class PedirViajesPage implements OnInit {
   }
 
   // Función para enviar el ID de un viaje seleccionado
-  enviarId(id: number) {
-
+  async enviarId(id: number) {
     // se guarda el id traida en la variable 'idSeleccionado'
     this.idSeleccionado = id;
     console.log('ID enviada al TypeScript:', this.idSeleccionado); // se muestra en consola
 
-    //se llama la funcion llamada 'function'
-    this.function();
+    // Llama al método 'llamarViajes' del servicio 'supa' y se llaman los dato segun su id que esta en la variable 'idSeleccionado'
+    const datosviajes = await lastValueFrom(this.supa.llamarViajes(this.idSeleccionado)); // se guardan los datos traidos en la varibla 'datosviajes'
+    console.log(datosviajes) // se muestra en consola
     
-    // se crea una variabla para guardar datos llamada 'datosParaInsertar'
-    const datosParaInsertar = {
-      // se guardan los siguientes datos
-      id_usuario: this.id, 
-      id_viajes: this.idSeleccionado,
+    // se guarda el id traida en la variable 'id2'
+    const id2 = datosviajes.id
+
+    // Llama al método 'eresPasajero' del servicio 'supa' y se le pasan las variables para que traiga datos o no los traiga
+    const pasajero = await lastValueFrom(this.supa.eresPasajero(this.id, id2));
+    console.log(pasajero); // se muestra en consola
+    
+    //si la variable 'pasajero' esta vacia entra al if
+    if (!pasajero){
+
+      console.log('no eres pasajero') // se muestra en consola
+
+      // se llama la funcion con nombre 'noeresPasajero'
+      this.noeresPasajero();
+
+      //se llama la funcion llamada 'function'
+      this.function();
+    
+      // se crea una variabla para guardar datos llamada 'datosParaInsertar'
+      const datosParaInsertar = {
+        // se guardan los siguientes datos
+        id_usuario: this.id, 
+        id_viajes: this.idSeleccionado,
       
-    };
+      };
     
-    // Llama al método 'crearViaje' del servicio 'supa' y se insertan los datos que eston en la variable'datosParaInsertar'
-    this.supa.crearViaje(datosParaInsertar).subscribe(
-      (response) => {
-        console.log('Datos insertados exitosamente:', response); // Registra un mensaje de éxito y la respuesta
-      },
-      (error) => {
-        console.error('Error al insertar datos:', error);// Registra un mensaje de error y el objeto de error
-      }
-    );
+      // Llama al método 'crearViaje' del servicio 'supa' y se insertan los datos que eston en la variable'datosParaInsertar'
+      this.supa.crearViaje(datosParaInsertar).subscribe(
+        (response) => {
+          console.log('Datos insertados exitosamente:', response); // Registra un mensaje de éxito y la respuesta
+        },
+        (error) => {
+          console.error('Error al insertar datos:', error);// Registra un mensaje de error y el objeto de error
+        }
+      );
+      
+    } else {
+      console.log('ya eres pasajero'); // Se muestra en consola
+
+      // se llama la funcion con nombre 'eresPasajero'
+      this.eresPasajero();
+      
+    }
   }
   
   // Función para recargar la página actual
   recargarPagina() {
     window.location.reload();
+  }
+
+  // Función asincrónica para mostrar un mensaje tipo Toast
+  async eresPasajero() {
+
+    // Crear un Toast con el mensaje, duración y posición específicos
+    const toast = await this.toastController.create({
+      message: 'ya eres pasajero en este viaje', // Mensaje que se mostrará
+      duration: 2000, // Duración en milisegundos durante la cual se mostrará el mensaje (2 segundos en este caso)
+      position: 'middle' // Posición del mensaje en la pantalla (centro en este caso)
+    });
+    
+    // Mostrar el Toast en la interfaz
+    toast.present();
+  }
+
+    // Función asincrónica para mostrar un mensaje tipo Toast
+  async noeresPasajero() {
+
+    // Crear un Toast con el mensaje, duración y posición específicos
+    const toast = await this.toastController.create({
+      message: 'has apartado un asiento en ese viaje', // Mensaje que se mostrará
+      duration: 2000, // Duración en milisegundos durante la cual se mostrará el mensaje (2 segundos en este caso)
+      position: 'middle' // Posición del mensaje en la pantalla (centro en este caso)
+    });
+
+    // Mostrar el Toast en la interfaz
+    toast.present();
   }
 }

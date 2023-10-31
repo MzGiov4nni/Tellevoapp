@@ -3,6 +3,7 @@ import { SupabaseApiService } from '../service/supabase/supabase-api.service';
 import { lastValueFrom } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',
