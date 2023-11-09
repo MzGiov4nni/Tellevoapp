@@ -119,14 +119,14 @@ export class HomePage implements OnInit {
         style: 'mapbox://styles/mapbox/streets-v11',  // Estilo del mapa (los estilos ya los trae mapbox)
         center: [this.longitud, this.latitud], // Centro del mapa usammos las variables 'longitud' y 'latitud' para que el mapa muestre nuestra ubicación
         zoom: 15, // Nivel de zoom que comieza el mapa 
-        accessToken: environment.mapboxToken,  // Token de acceso de Mapbox traido desde 'environment'
+        accessToken: 'pk.eyJ1Ijoiam8tYWxtb250ZXMiLCJhIjoiY2xuam9naXg4MTdkdDJsbzJibG9vM2hnNCJ9.712WFIl33YSIArObHq8VAg',  // Token de acceso de Mapbox traido desde 'environment'
       });
     }
   }
 
    // Función para obtener el nombre de la calle a partir de las coordenadas
   obtenerNombreDeCalle() {
-    const apiKey = environment.mapboxToken; // Token de acceso de Mapbox traido desde 'environment'
+    const apiKey = 'pk.eyJ1Ijoiam8tYWxtb250ZXMiLCJhIjoiY2xuam9naXg4MTdkdDJsbzJibG9vM2hnNCJ9.712WFIl33YSIArObHq8VAg'; // Token de acceso de Mapbox traido desde 'environment'
     // Construir la URL para la solicitud de geocodificación primero ponemos 'longitud' luego 'latitud' y al final la 'apiKey'
     const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.longitud},${this.latitud}.json?access_token=${apiKey}`;
 
