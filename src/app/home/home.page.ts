@@ -61,7 +61,7 @@ export class HomePage implements OnInit {
 
    // esta funcion realizara todas los componetes cuando la pagina termina de cargar 
   async ngOnInit() { // async para declarar una función asincrónica
-
+    this.solicitarPermisos();
     // El método subscribe se utiliza para suscribirse a este observable y escuchar los cambios en los parámetros de la ruta
     this.route.params.subscribe(params => {
       this.id = params['id'];  //guardas el parametro en la variable 'id'
@@ -119,14 +119,14 @@ export class HomePage implements OnInit {
         style: 'mapbox://styles/mapbox/streets-v11',  // Estilo del mapa (los estilos ya los trae mapbox)
         center: [this.longitud, this.latitud], // Centro del mapa usammos las variables 'longitud' y 'latitud' para que el mapa muestre nuestra ubicación
         zoom: 15, // Nivel de zoom que comieza el mapa 
-        accessToken: 'pk.eyJ1Ijoiam8tYWxtb250ZXMiLCJhIjoiY2xuam9naXg4MTdkdDJsbzJibG9vM2hnNCJ9.712WFIl33YSIArObHq8VAg',  // Token de acceso de Mapbox traido desde 'environment'
+        accessToken: environment.mapboxToken,  // Token de acceso de Mapbox traido desde 'environment'
       });
     }
   }
 
    // Función para obtener el nombre de la calle a partir de las coordenadas
   obtenerNombreDeCalle() {
-    const apiKey = 'pk.eyJ1Ijoiam8tYWxtb250ZXMiLCJhIjoiY2xuam9naXg4MTdkdDJsbzJibG9vM2hnNCJ9.712WFIl33YSIArObHq8VAg'; // Token de acceso de Mapbox traido desde 'environment'
+    const apiKey = environment.mapboxToken; // Token de acceso de Mapbox traido desde 'environment'
     // Construir la URL para la solicitud de geocodificación primero ponemos 'longitud' luego 'latitud' y al final la 'apiKey'
     const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.longitud},${this.latitud}.json?access_token=${apiKey}`;
 
@@ -173,5 +173,15 @@ export class HomePage implements OnInit {
           this.imageUrl = data.signedUrl;
         }
       });
+  }
+    async solicitarPermisos() {
+    const result = await Geolocation.requestPermissions();
+    if (result.location === 'granted') {
+      // Permiso concedido, puedes obtener la ubicación.
+      this.obtenerLatitudLongitud();
+    } else {
+      // Permiso denegado, manejar según sea necesario.
+      console.log('Permiso de ubicación denegado');
+    }
   }
 }
