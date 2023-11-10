@@ -61,7 +61,6 @@ export class HomePage implements OnInit {
 
    // esta funcion realizara todas los componetes cuando la pagina termina de cargar 
   async ngOnInit() { // async para declarar una función asincrónica
-    this.solicitarPermisos();
     // El método subscribe se utiliza para suscribirse a este observable y escuchar los cambios en los parámetros de la ruta
     this.route.params.subscribe(params => {
       this.id = params['id'];  //guardas el parametro en la variable 'id'
