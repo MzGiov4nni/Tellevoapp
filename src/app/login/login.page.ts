@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { createClient } from '@supabase/supabase-js';
 import { SupabaseApiService } from '../service/supabase/supabase-api.service';
 import { lastValueFrom } from 'rxjs';
 import { ToastController } from '@ionic/angular';
-
 
 @Component({
   selector: 'app-login',
@@ -19,57 +23,63 @@ export class LoginPage implements OnInit {
   formularioLogin: FormGroup;
   myForm: FormGroup;
 
-  constructor(public fb: FormBuilder, public alertController: AlertController, private router: Router, private x: SupabaseApiService, private formBuilder: FormBuilder,private toastController: ToastController) {
-
+  constructor(
+    public fb: FormBuilder,
+    public alertController: AlertController,
+    private router: Router,
+    private x: SupabaseApiService,
+    private formBuilder: FormBuilder,
+    private toastController: ToastController
+  ) {
     this.myForm = this.formBuilder.group({
       user_name: [''],
-      password:['']
+      password: [''],
     });
 
     // Configurar el formulario de inicio de sesión utilizando FormBuilder
     this.formularioLogin = this.fb.group({
-      'user_name': new FormControl("", Validators.required), // Campo de usuario con validación requerida
-      'password': new FormControl("", Validators.required) // Campo de usuario con validación requerida
+      user_name: new FormControl('', Validators.required), // Campo de usuario con validación requerida
+      password: new FormControl('', Validators.required), // Campo de usuario con validación requerida
     });
   }
 
-  // Función para navegar a la página de registro 
+  // Función para navegar a la página de registro
   goToRegistro() {
     // Utiliza el Router para navegar a la ruta 'login'
-    this.router.navigate(['/registro'])
+    this.router.navigate(['/registro']);
   }
 
-   // Función para navegar a la página de para recuperar contraseña
+  // Función para navegar a la página de para recuperar contraseña
   goToContrasenna() {
-    // Utiliza el Router para navegar a la ruta 'login'    
-    this.router.navigate(['/recuperar'])
+    // Utiliza el Router para navegar a la ruta 'login'
+    this.router.navigate(['/recuperar']);
   }
 
-  // funcion para mostrar contraseña 
+  // funcion para mostrar contraseña
   mostrar() {
     var x = document.getElementById('password') as HTMLInputElement; //as HTMLInputElement para realizar una conversión de tipoas HTMLInputElement para realizar una conversión de tipo
     //getElementById para buscar un elemento en el documento HTML con el atributo id igual a "password"
-    if (x.type === "password") {
-      x.type = "text";  //si la variable es de tipo Password la pasa a tipo Text 
+    if (x.type === 'password') {
+      x.type = 'text'; //si la variable es de tipo Password la pasa a tipo Text
     } else {
-      x.type = "password"; // si la variable es no es de tipo Password la convertira de tipo Password
+      x.type = 'password'; // si la variable es no es de tipo Password la convertira de tipo Password
     }
   }
 
-
-  // esta funcion realizara todas los componetes cuando la pagina termina de cargar 
+  // esta funcion realizara todas los componetes cuando la pagina termina de cargar
   ngOnInit() {
-     // Configuración de Supabase para llamarlo con js o ts pero solo lo usamos aqui todas las otras formas son por otro
+    // Configuración de Supabase para llamarlo con js o ts pero solo lo usamos aqui todas las otras formas son por otro
     const supabaseUrl = 'https://vgmnxcuuazgilywheivv.supabase.co'; // guardamos la URL en la variable 'supabaseUrl'
     // guardamos a apikey en la variable 'supabaseKey'
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZnbW54Y3V1YXpnaWx5d2hlaXZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc2Mzk2MjAsImV4cCI6MjAxMzIxNTYyMH0.O-wxs7VxhOZ8-SWBE0f-KfxYYOss3QI-wnY0nW8MtU8';
+    const supabaseKey =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZnbW54Y3V1YXpnaWx5d2hlaXZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc2Mzk2MjAsImV4cCI6MjAxMzIxNTYyMH0.O-wxs7VxhOZ8-SWBE0f-KfxYYOss3QI-wnY0nW8MtU8';
     const supabase = createClient(supabaseUrl, supabaseKey); // creamos el clientes para que haga los trabajos de la vase de datos
 
     // Función asincrónica para obtener datos de usuarios desde Supabase
     async function fetchData() {
       // se hace un selec y te llaman todos los usuarios de la tabla 'Usuario'
       const { data, error } = await supabase.from('Usuario').select('*');
-      //si tiene un error entrara al if 
+      //si tiene un error entrara al if
       if (error) {
         // si da algun error se mostrara en consola el error
         console.error('Error al recuperar datos:', error);
@@ -77,7 +87,6 @@ export class LoginPage implements OnInit {
         // si no da algun error se mostrara en consola los datos recuperado
         console.log('Datos recuperados:', data);
       }
-
     }
     // se llama la funcion llanada 'fetchData'
     fetchData();
@@ -85,63 +94,55 @@ export class LoginPage implements OnInit {
 
   // Función para realizar el inicio de sesión
   async ingresar() {
-    // se guardan los datos del formulario en la variable 'f' 
+    // se guardan los datos del formulario en la variable 'f'
     var f = this.formularioLogin.value;
     console.log(f); // se muestra en consola
 
     try {
-
-    // Llama al método 'loginuser' del servicio 'supa' y se guardan los datos en  la variable 'user' siendo llamado por la  variable'f'
+      // Llama al método 'loginuser' del servicio 'supa' y se guardan los datos en  la variable 'user' siendo llamado por la  variable'f'
       const user = await lastValueFrom(this.x.loginuser(f));
-      
+
       // si hay un usuario se entra al if
       if (user) {
-
         console.log('Usuario ingresado'); // se muestra en consola
-        console.log(user) // se muestra en consola
- 
+        console.log(user); // se muestra en consola
+
         this.id = user.id; // se guarda en la variable 'id' la id extraida la variable 'user'
         console.log(this.id); // se muestra en consola
-        
+
         // Utiliza el Router para navegar a la ruta 'intro' con el parámetro 'id'
-        this.router.navigate(['/intro',{id:this.id}]);
+        this.router.navigate(['/intro', { id: this.id }]);
 
         // se llama la funcion con nombre 'limpiar'
         this.limpiar();
-
       } else {
-        
-        // si no se encuente usuari se muestra este mensaje en consola 
+        // si no se encuente usuari se muestra este mensaje en consola
         console.log('Usuario no encontrado o error en la solicitud.');
 
         // se llama la funcion con nombre 'mostrarMensaje'
         this.mostrarMensaje();
       }
     } catch (error) {
-
       // si da algun error se mostrara en consola el error
-      console.error('Error al obtener los datos del usuario:', error)
-      
+      console.error('Error al obtener los datos del usuario:', error);
     }
   }
 
-  //funcion para limpiar los input 
-  limpiar(){
-
-    // se ponen los valires de los input en valores limpios 
+  //funcion para limpiar los input
+  limpiar() {
+    // se ponen los valires de los input en valores limpios
     this.myForm.get('user_name')?.setValue('');
-    // se ponen los valires de los input en valores limpios 
+    // se ponen los valires de los input en valores limpios
     this.myForm.get('password')?.setValue('');
   }
 
   // Función asincrónica para mostrar un mensaje tipo Toast
   async mostrarMensaje() {
-
     // Crear un Toast con el mensaje, duración y posición específicos
     const toast = await this.toastController.create({
       message: 'El usuario no existe o la contraseña no es valida', // Mensaje que se mostrará
       duration: 2000, // Duración en milisegundos durante la cual se mostrará el mensaje (2 segundos en este caso)
-      position: 'middle' // Posición del mensaje en la pantalla (centro en este caso)
+      position: 'middle', // Posición del mensaje en la pantalla (centro en este caso)
     });
 
     // Mostrar el Toast en la interfaz

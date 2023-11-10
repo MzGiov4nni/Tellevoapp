@@ -8,13 +8,16 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['intro.page.scss'],
 })
 export class IntroPage {
-   // Declarar propiedades de la clase con sus valores iniciales
+  // Declarar propiedades de la clase con sus valores iniciales
   id: any;
 
-  constructor(private navCtrl: NavController,private ngZone: NgZone,private route: ActivatedRoute){
-    
+  constructor(
+    private navCtrl: NavController,
+    private ngZone: NgZone,
+    private route: ActivatedRoute
+  ) {
     //se daclara el tiempo y se guarda en la variable 'tiempoMostrado'
-    const tiempoMostrado = 3000; // Tiempo en milisegundos (3 segundos en este caso) 
+    const tiempoMostrado = 3000; // Tiempo en milisegundos (3 segundos en este caso)
 
     // El método subscribe se utiliza para suscribirse a este observable y escuchar los cambios en los parámetros de la ruta
     this.route.params.subscribe((params) => {
@@ -24,7 +27,6 @@ export class IntroPage {
     // Después de un tiempo determinado, ejecutar la función para navegar a la página "home"
     setTimeout(() => {
       this.ngZone.run(() => {
-
         //se llama la funcion llamada 'navigateToHome'
         this.navigateToHome();
       });
