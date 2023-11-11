@@ -119,7 +119,7 @@ export class PedirViajesPage implements OnInit {
 
     //si la variable 'pasajero' esta vacia entra al if
     if (id_chofer.toString() === id_user.toString()) {
-      this.no_eres_pasajero();
+      this.eres_chofer();
     } else {
       if (!pasajero) {
         console.log('id usuario ' + this.id);
@@ -189,7 +189,7 @@ export class PedirViajesPage implements OnInit {
     toast.present();
   }
 
-  async no_eres_pasajero() {
+  async eres_chofer() {
     // Crear un Toast con el mensaje, duración y posición específicos
     const toast = await this.toastController.create({
       message: 'eres el chofer de este viaje', // Mensaje que se mostrará

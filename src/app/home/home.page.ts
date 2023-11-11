@@ -30,9 +30,7 @@ export class HomePage implements OnInit {
     private router: Router,
     private http: HttpClient,
     private route: ActivatedRoute,
-    private supa: SupabaseApiService,
-    private renderer: Renderer2,
-    private el: ElementRef
+    private supa: SupabaseApiService
   ) {
     // Configuración de Supabase para llamarlo con js o ts pero solo lo usamos aqui todas las otras formas son por otro
     const supabaseUrl = 'https://vgmnxcuuazgilywheivv.supabase.co'; // guardamos la URL en la variable 'supabaseUrl'
@@ -119,16 +117,63 @@ export class HomePage implements OnInit {
     }
   }
 
-  // Función para inicializar el mapa
+  // Función para inicializar el mapa utilizando la biblioteca Mapbox
   initializeMap() {
-    //si hay una variable llamada 'map' entrar al if y se rellena con los siguientes datos
+    // Verificar si el mapa ya está inicializado
     if (!this.map) {
+      // Crear una nueva instancia del mapa si no está inicializado
       this.map = new mapboxgl.Map({
         container: 'map', // ID del contenedor HTML donde se mostrará el mapa
-        style: 'mapbox://styles/mapbox/streets-v11', // Estilo del mapa (los estilos ya los trae mapbox)
-        center: [this.longitud, this.latitud], // Centro del mapa usammos las variables 'longitud' y 'latitud' para que el mapa muestre nuestra ubicación
-        zoom: 15, // Nivel de zoom que comieza el mapa
-        accessToken: environment.mapboxToken, // Token de acceso de Mapbox traido desde 'environment'
+        style: 'mapbox://styles/mapbox/streets-v11', // Estilo del mapa (en este caso, estilo de calles de Mapbox)
+        center: [this.longitud, this.latitud], // Coordenadas del centro del mapa [longitud, latitud]
+        zoom: 15, // Nivel de zoom inicial
+        accessToken: environment.mapboxToken, // Token de acceso de Mapbox (se debe proporcionar)
+      });
+
+      // Evento 'load' se activa después de que el mapa se haya cargado completamente
+      this.map.on('load', () => {
+        // Colocar marcadores en el mapa después de que se haya cargado completamente
+        const coordenadasMarcador1: mapboxgl.LngLatLike = [
+          this.longitud,
+          this.latitud,
+        ];
+        const coordenadasMarcador2: mapboxgl.LngLatLike = [
+          -71.54260695214582, -33.02925816652025,
+        ];
+
+        // Agregar marcador 1 al mapa
+        new mapboxgl.Marker().setLngLat(coordenadasMarcador1).addTo(this.map);
+
+        // Agregar marcador 2 al mapa
+        new mapboxgl.Marker().setLngLat(coordenadasMarcador2).addTo(this.map);
+
+        // Agregar una fuente de datos para la línea entre los marcadores
+        this.map.addSource('line-source', {
+          type: 'geojson',
+          data: {
+            type: 'Feature',
+            properties: {},
+            geometry: {
+              type: 'LineString',
+              coordinates: [coordenadasMarcador1, coordenadasMarcador2],
+            },
+          },
+        });
+
+        // Agregar una capa para la línea entre los marcadores
+        this.map.addLayer({
+          id: 'line-layer',
+          type: 'line',
+          source: 'line-source',
+          layout: {
+            'line-join': 'round',
+            'line-cap': 'round',
+          },
+          paint: {
+            'line-color': '#888',
+            'line-width': 8,
+          },
+        });
       });
     }
   }
