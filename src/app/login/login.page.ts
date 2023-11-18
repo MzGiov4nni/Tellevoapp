@@ -113,8 +113,6 @@ export class LoginPage implements OnInit {
         // Utiliza el Router para navegar a la ruta 'intro' con el parámetro 'id'
         this.router.navigate(['/intro', { id: this.id }]);
 
-        // se llama la funcion con nombre 'limpiar'
-        this.limpiar();
       } else {
         // si no se encuente usuari se muestra este mensaje en consola
         console.log('Usuario no encontrado o error en la solicitud.');
@@ -128,14 +126,6 @@ export class LoginPage implements OnInit {
     }
   }
 
-  //funcion para limpiar los input
-  limpiar() {
-    // se ponen los valires de los input en valores limpios
-    this.myForm.get('user_name')?.setValue('');
-    // se ponen los valires de los input en valores limpios
-    this.myForm.get('password')?.setValue('');
-  }
-
   // Función asincrónica para mostrar un mensaje tipo Toast
   async mostrarMensaje() {
     // Crear un Toast con el mensaje, duración y posición específicos
@@ -147,5 +137,9 @@ export class LoginPage implements OnInit {
 
     // Mostrar el Toast en la interfaz
     toast.present();
+  }
+  
+  ionViewWillLeave() {
+    this.formularioLogin.reset();
   }
 }

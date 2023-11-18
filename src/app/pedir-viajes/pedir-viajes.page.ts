@@ -21,7 +21,7 @@ export class PedirViajesPage implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private toastController: ToastController
-  ) {}
+  ) { }
 
   // Función para navegar a la página de inicio
   goToHome() {
@@ -52,7 +52,7 @@ export class PedirViajesPage implements OnInit {
     const datosviajes = await lastValueFrom(
       this.supa.llamarViajes(this.idSeleccionado)
     ); // se guardan los datos traidos en la varibla 'datosviajes'
-    console.log(datosviajes); // se muestra en consola
+    console.log('funcion'+datosviajes); // se muestra en consola
 
     const asientos = datosviajes.asientos; // de la variable 'datosviajes'  solo sacamos los asientos y los guardamos en la variable 'asientos'
     console.log(asientos); // se muestra en consola
@@ -117,40 +117,50 @@ export class PedirViajesPage implements OnInit {
     const pasajero = await lastValueFrom(this.supa.eresPasajero(this.id, id2));
     console.log(pasajero); // se muestra en consola
 
+    const Viaje_alumnos = await lastValueFrom(this.supa.datosParaMapa(this.id))
+    console.log(Viaje_alumnos)
+
     //si la variable 'pasajero' esta vacia entra al if
     if (id_chofer.toString() === id_user.toString()) {
       this.eres_chofer();
     } else {
-      if (!pasajero) {
-        console.log('id usuario ' + this.id);
-        console.log('id chofer ' + id_chofer);
-        console.log('No eres pasajero');
+      if (!pasajero)  {
+        if (!Viaje_alumnos)  {
+          console.log('id usuario ' + this.id);
+          console.log('id chofer ' + id_chofer);
+          console.log('No eres pasajero');
+          
+          this.function();
+          // Llama al método 'noeresPasajero'
+          this.noeresPasajero();
 
-        // Llama al método 'noeresPasajero'
-        this.noeresPasajero();
+          // Llama al método 'function'
+          
 
-        // Llama al método 'function'
-        this.function();
+          // Crea la variable para guardar datos llamada 'datosParaInsertar'
+          const datosParaInsertar = {
+            id_usuario: this.id,
+            id_viajes: this.idSeleccionado,
+          };
 
-        // Crea la variable para guardar datos llamada 'datosParaInsertar'
-        const datosParaInsertar = {
-          id_usuario: this.id,
-          id_viajes: this.idSeleccionado,
-        };
-
-        // Llama al método 'crearViaje' del servicio 'supa' y se insertan los datos en 'datosParaInsertar'
-        this.supa.crearViaje(datosParaInsertar).subscribe(
-          (response) => {
-            console.log('Datos insertados exitosamente:', response);
-            // Puedes realizar acciones adicionales en caso de éxito
-          },
-          (error) => {
-            console.error('Error al insertar datos:', error);
-            // Maneja el error de manera más robusta, por ejemplo, muestra un mensaje al usuario
-          }
-        );
-        this.recargarPagina();
+          // Llama al método 'crearViaje' del servicio 'supa' y se insertan los datos en 'datosParaInsertar'
+          this.supa.crearViaje(datosParaInsertar).subscribe(
+            (response) => {
+              console.log('Datos insertados exitosamente:', response);
+              // Puedes realizar acciones adicionales en caso de éxito
+            },
+            (error) => {
+              console.error('Error al insertar datos:', error);
+              // Maneja el error de manera más robusta, por ejemplo, muestra un mensaje al usuario
+            }
+          );
+          
+          
+        } else {
+          this.ya_tienes_viaje();
+        }
       } else {
+        
         console.log('Ya eres pasajero');
         // Llama al método 'eresPasajero'
         this.eresPasajero();
@@ -196,6 +206,23 @@ export class PedirViajesPage implements OnInit {
       duration: 2000, // Duración en milisegundos durante la cual se mostrará el mensaje (2 segundos en este caso)
       position: 'middle', // Posición del mensaje en la pantalla (centro en este caso)
     });
+
+
+
+    // Mostrar el Toast en la interfaz
+    toast.present();
+  }
+
+
+  async ya_tienes_viaje() {
+    // Crear un Toast con el mensaje, duración y posición específicos
+    const toast = await this.toastController.create({
+      message: 'ya estas abordo de un viaje', // Mensaje que se mostrará
+      duration: 2000, // Duración en milisegundos durante la cual se mostrará el mensaje (2 segundos en este caso)
+      position: 'middle', // Posición del mensaje en la pantalla (centro en este caso)
+    });
+
+
 
     // Mostrar el Toast en la interfaz
     toast.present();

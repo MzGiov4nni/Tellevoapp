@@ -24,7 +24,7 @@ export class SupabaseApiService {
     );
   }
   llamarUser(id_user:any){
-    return this._http.get<any>('https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Usuario?select=*&id=eq.'+id_user,{headers:this.supabaseHeaders}).pipe(
+    return this._http.get<any>('https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Usuario? id=eq.'+id_user,{headers:this.supabaseHeaders}).pipe(
       map((data) => {       
           return data[0];
       })
@@ -82,4 +82,19 @@ export class SupabaseApiService {
       });
   }
 
+  datosParaMapa(id: any ){
+    return this._http.get<any>('https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Viajes_alumnos?id_usuario=eq.' + id ,{headers:this.supabaseHeaders}).pipe(
+      map((data) => {       
+          return data[0];
+      })
+    );
+  }
+
+  datos_de_viaje(id: any ){
+    return this._http.get<any>('https://vgmnxcuuazgilywheivv.supabase.co/rest/v1/Viaje?id=eq.' + id ,{headers:this.supabaseHeaders}).pipe(
+      map((data) => {       
+          return data[0];
+      })
+    );
+  }
 }
