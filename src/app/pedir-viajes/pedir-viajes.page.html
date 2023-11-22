@@ -10,15 +10,10 @@
   <ion-list>
     <ion-item *ngFor="let p of datosDeViajes">
       <div class="container">
-        <h5 class="item">chofer: {{ p.id_chofer }}</h5>
         <h5 class="item">Destino: {{ p.destino }}</h5>
         <h5 class="item">hora de salida: {{ p.hora_ini }}</h5>
-        <h5 class="item"  *ngIf="p.estado_viaje; else noEstadoViaje">viaje disponible</h5>
+        <h5 class="item"  *ngIf="p.estado_viaje; else noEstadoViaje"><button (click)="goToDetalle_viaje(p.id)" class="custom-button">tomar viaje</button></h5>
         <ng-template #noEstadoViaje>el viaje esta en curso</ng-template>
-        <div class="item" *ngIf="p.asientos >= 1; else noasientos"><h5 class="item">asientos disponible: {{p.asientos}}</h5>
-          <button (click)="enviarId(p.id)" class="custom-button">tomar viaje</button>
-        </div>
-        <ng-template #noasientos><h5 class="item">No tiene asientos disponibles</h5></ng-template>
       </div>
     </ion-item>
   </ion-list>

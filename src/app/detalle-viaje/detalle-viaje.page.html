@@ -1,0 +1,19 @@
+<ion-header>
+    <ion-toolbar class="cuerpo">
+        <ion-buttons slot="start">
+            <ion-button (click)="goToPedir_viaje()" fill="outline" style="--color: #ffffff;">home</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="cuerpo" >
+    <button (click)=verificar_pasajero()  class="custom-button">tomar viaje</button>
+    <h4>Chofer: {{nombre_chofer}}</h4>
+    <h4>Nro de asientes: {{asiento}}</h4>
+    <h4>Destino del viaje: {{direccion}}</h4>
+    <h4>lugar de inicio: Sede de DUOC UC Viña del mar</h4>
+    <h4>Hora de inicio: {{hora_ini}}</h4>
+    <h4>{{estado_viaje}}</h4>
+    <br>
+    <div id="map" style="width: 400px; height: 400px;"></div>
+
+</ion-content>

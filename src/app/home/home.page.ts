@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
 import { Geolocation } from '@capacitor/geolocation';
@@ -18,7 +18,6 @@ export class HomePage implements OnInit {
   // Declarar propiedades de la clase con sus valores iniciales
   nombreUsuario: string = '';
   id: number = 0;
-  map!: mapboxgl.Map;
   latitud_presisa: number = 0;
   longitud_presisa: number = 0;
   direccion: string = '';
@@ -29,12 +28,15 @@ export class HomePage implements OnInit {
   latitud_bd: number = 0;
   longitud_bd: number = 0;
   num: number = 0;
+  private map!: mapboxgl.Map; 
 
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
     private supa: SupabaseApiService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private router: Router,
+    
   ) {
     // Configuración de Supabase para llamarlo con js o ts pero solo lo usamos aqui todas las otras formas son por otro
     const supabaseUrl = 'https://vgmnxcuuazgilywheivv.supabase.co'; // guardamos la URL en la variable 'supabaseUrl'
@@ -44,30 +46,29 @@ export class HomePage implements OnInit {
     this.supabase = createClient(supabaseUrl, supabaseKey); // creamos el clientes para que haga los trabajos de la vase de datos
   }
 
-  goToviajes() {
-    // Utiliza el NavController para navegar a la página 'pedir-viajes' con el parámetro 'id'
-    this.navCtrl.navigateForward(['/pedir-viajes', { id: this.id }]);
+  async goToPedir_viaje() {
+    this.router.navigate(['/pedir-viajes', this.id]);
   }
 
-  goToPerfil() {
-    // Utiliza el NavController para navegar a la página 'perfil' con el parámetro 'id'
+  async goToPerfil() {
     this.navCtrl.navigateForward(['/perfil', { id: this.id }]);
   }
 
-  goTocrearViajes() {
-    // Utiliza el NavController para navegar a la página 'crear-viaje' con el parámetro 'id'
+  async goTocrearViajes() {
     this.navCtrl.navigateForward(['/crear-viaje', { id: this.id }]);
   }
 
-  goToLogin() {
-    // Utiliza el NavController para navegar a la página 'login'
-    this.map.remove();
+  async goToLogin() {
     this.navCtrl.navigateForward(['/login']);
 
   }
 
+  async ngOnDestroy() {
+  }
+  
   // esta funcion realizara todas los componetes cuando la pagina termina de cargar
   async ngOnInit() {
+    this.obtenerLatitudLongitud();
     // async para declarar una función asincrónica
     // El método subscribe se utiliza para suscribirse a este observable y escuchar los cambios en los parámetros de la ruta
     this.route.params.subscribe((params) => {
@@ -79,7 +80,6 @@ export class HomePage implements OnInit {
     this.solicitarPermisos();
 
     // se llama la funcion llamada 'obtenerLatitudLongitud'
-    this.obtenerLatitudLongitud();
 
     // Llama al método 'llamarUser' del servicio 'supa' y se guardan los datos en  la variable Usuario siendo llamado por su 'id'
     const Usuario = await lastValueFrom(this.supa.llamarUser(this.id));
@@ -94,11 +94,11 @@ export class HomePage implements OnInit {
     const datos_viajes_alumnos = await lastValueFrom(this.supa.datosParaMapa(this.id));
     console.log(datos_viajes_alumnos);
     if (!datos_viajes_alumnos) {
-
+      console.log('12')
       this.id_viajes = 0;
       this.initializeMap();
     } else {
-
+      console.log('13')
       this.id_viajes = datos_viajes_alumnos.id_viajes;
       console.log(this.id_viajes);
 
@@ -111,10 +111,7 @@ export class HomePage implements OnInit {
       this.initializeMap();
     }
 
-
-
   }
-
   // Función para obtener la latitud y longitud de la ubicación actual
   async obtenerLatitudLongitud() {
     // async para declarar una función asincrónica
@@ -142,77 +139,68 @@ export class HomePage implements OnInit {
   }
 
   // Función para inicializar el mapa utilizando la biblioteca Mapbox
-  initializeMap() {
-    // Verificar si el mapa ya está inicializado
-    try {
-      console.log('entro al try')
-      if (!this.map) {
-        // Crear una nueva instancia del mapa si no está inicializado
-        console.log('entro al primer if de creacion de mapa')
-        this.map = new mapboxgl.Map({
-          container: 'map', // ID del contenedor HTML donde se mostrará el mapa
-          style: 'mapbox://styles/mapbox/streets-v11', // Estilo del mapa (en este caso, estilo de calles de Mapbox)
-          center: [this.longitud_presisa, this.latitud_presisa], // Coordenadas del centro del mapa [longitud, latitud]
-          zoom: 15, // Nivel de zoom inicial
-          accessToken: environment.mapboxToken, // Token de acceso de Mapbox (se debe proporcionar)
-        });
-        console.log('paso los datos del mapa ')
-        console.log('Valor de id_viajes:', this.id_viajes);
+ 
+  // Función para inicializar el mapa utilizando la biblioteca Mapbox
+  async initializeMap() {
+    if (this.map) {
+      this.map.remove();
+    }
+    if (!this.map) {
+      console.log('entro al primer if de creacion de mapa');
 
-        if (this.id_viajes !== 0) {
-          console.log('Entró al bloque if de id_viajes diferente a 0');
-          this.map.on('load', () => {
-            // Colocar marcadores en el mapa después de que se haya cargado completamente
-            const coordenadasMarcador1: mapboxgl.LngLatLike = [
-              this.longitud_presisa,
-              this.latitud_presisa,
-            ];
-            const coordenadasMarcador2: mapboxgl.LngLatLike = [
-              this.longitud_bd,
-              this.latitud_bd,
-            ];
+      this.map = new mapboxgl.Map({
+        container: 'map', // ID del contenedor HTML donde se mostrará el mapa
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [this.longitud_presisa, this.latitud_presisa],
+        zoom: 15,
+        accessToken: environment.mapboxToken,
+      });
 
+      console.log('paso los datos del mapa ');
+      console.log('Valor de id_viajes:', this.id_viajes);
 
-            // Agregar una fuente de datos para la línea entre los marcadores
-            this.map.addSource('line-source', {
-              type: 'geojson',
-              data: {
-                type: 'Feature',
-                properties: {},
-                geometry: {
-                  type: 'LineString',
-                  coordinates: [coordenadasMarcador1, coordenadasMarcador2],
-                },
+      if (this.id_viajes !== 0) {
+        console.log('Entró al bloque if de id_viajes diferente a 0');
+        this.map.on('load', () => {
+          // Colocar marcadores en el mapa después de que se haya cargado completamente
+          const coordenadasMarcador1: mapboxgl.LngLatLike = [
+            this.longitud_presisa,
+            this.latitud_presisa,
+          ];
+          const coordenadasMarcador2: mapboxgl.LngLatLike = [
+            this.longitud_bd,
+            this.latitud_bd,
+          ];
+          this.map.addSource('line-source', {
+            type: 'geojson',
+            data: {
+              type: 'Feature',
+              properties: {},
+              geometry: {
+                type: 'LineString',
+                coordinates: [coordenadasMarcador1, coordenadasMarcador2],
               },
-            });
-
-            // Agregar una capa para la línea entre los marcadores
-            this.map.addLayer({
-              id: 'line-layer',
-              type: 'line',
-              source: 'line-source',
-              layout: {
-                'line-join': 'round',
-                'line-cap': 'round',
-              },
-              paint: {
-                'line-color': '#888',
-                'line-width': 8,
-              },
-            });
+            },
           });
-        } else {
-          console.log('Entró al bloque else de id_viaje dierente a 0');
-        }
+          this.map.addLayer({
+            id: 'line-layer',
+            type: 'line',
+            source: 'line-source',
+            layout: {
+              'line-join': 'round',
+              'line-cap': 'round',
+            },
+            paint: {
+              'line-color': '#888',
+              'line-width': 8,
+            },
+          });
+        });
       } else {
-        console.log('else de creacio')
+        console.log('Entró al bloque else de id_viaje diferente a 0');
       }
     }
-    catch (error) {
-      console.log(error)
-    }
   }
-
 
 
   // Función para obtener el nombre de la calle a partir de las coordenadas
