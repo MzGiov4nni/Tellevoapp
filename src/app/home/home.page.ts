@@ -47,18 +47,23 @@ export class HomePage implements OnInit {
   }
 
   async goToPedir_viaje() {
+    if(this.map){this.map.remove()}
     this.router.navigate(['/pedir-viajes', this.id]);
   }
 
   async goToPerfil() {
+    if(this.map){this.map.remove()}
     this.navCtrl.navigateForward(['/perfil', { id: this.id }]);
   }
 
   async goTocrearViajes() {
+    if(this.map){this.map.remove()}
     this.navCtrl.navigateForward(['/crear-viaje', { id: this.id }]);
   }
 
   async goToLogin() {
+    if(this.map){
+      this.map.remove()}
     this.navCtrl.navigateForward(['/login']);
 
   }
@@ -96,7 +101,6 @@ export class HomePage implements OnInit {
     if (!datos_viajes_alumnos) {
       console.log('12')
       this.id_viajes = 0;
-
     } else {
       console.log('13')
       this.id_viajes = datos_viajes_alumnos.id_viajes;
@@ -108,18 +112,8 @@ export class HomePage implements OnInit {
       console.log(datos_del_viaje)
       console.log('longitud ' + this.longitud_bd)
       console.log('latitud ' + this.latitud_bd)
-      }
+    }
 
-  }
-
-  async initializeMap() {
-    const map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [this.longitud_presisa,this.latitud_presisa ],
-      zoom: 16,
-      accessToken: environment.mapboxToken,
-    });
   }
   // Función para obtener la latitud y longitud de la ubicación actual
   async obtenerLatitudLongitud() {
@@ -140,13 +134,71 @@ export class HomePage implements OnInit {
       this.obtenerNombreDeCalle();
 
       // se llama la funcion llamada 'initializeMap'
-      this.initializeMap()
+
     } catch (error) {
       // si da algun error se mostrara en consola el error
       console.error('Error al obtener la ubicación:', error);
     }
   }
 
+  // Función para inicializar el mapa utilizando la biblioteca Mapbox
+ 
+  // Función para inicializar el mapa utilizando la biblioteca Mapbox
+  async initializeMap() {
+      this.map = new mapboxgl.Map({
+        container: 'map', // ID del contenedor HTML donde se mostrará el mapa
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [this.longitud_presisa, this.latitud_presisa],
+        zoom: 15,
+        accessToken: environment.mapboxToken,
+      });
+
+      this.liner_mapa()
+    }
+liner_mapa(){
+  if (this.id_viajes !== 0) {
+  console.log('Entró al bloque if de id_viajes diferente a 0');
+  this.map.on('load', () => {
+    // Colocar marcadores en el mapa después de que se haya cargado completamente
+    const coordenadasMarcador1: mapboxgl.LngLatLike = [
+      this.longitud_presisa,
+      this.latitud_presisa,
+    ];
+    const coordenadasMarcador2: mapboxgl.LngLatLike = [
+      this.longitud_bd,
+      this.latitud_bd,
+    ];
+    this.map.addSource('line-source', {
+      type: 'geojson',
+      data: {
+        type: 'Feature',
+        properties: {},
+        geometry: {
+          type: 'LineString',
+          coordinates: [coordenadasMarcador1, coordenadasMarcador2],
+        },
+      },
+    });
+    this.map.addLayer({
+      id: 'line-layer',
+      type: 'line',
+      source: 'line-source',
+      layout: {
+        'line-join': 'round',
+        'line-cap': 'round',
+      },
+      paint: {
+        'line-color': '#888',
+        'line-width': 8,
+      },
+    });
+  });
+} else {
+  console.log('Entró al bloque else de id_viaje diferente a 0');
+}
+}
+      
+  
 
 
   // Función para obtener el nombre de la calle a partir de las coordenadas
