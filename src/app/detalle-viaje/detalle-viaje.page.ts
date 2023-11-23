@@ -25,6 +25,7 @@ export class DetalleViajePage implements OnInit, OnDestroy {
   latitud: number = 0;
   longitud:number = 0;
   direccion: string = '';
+  map!: mapboxgl.Map;
 
   constructor(
     private supa: SupabaseApiService,
@@ -37,13 +38,18 @@ export class DetalleViajePage implements OnInit, OnDestroy {
 
 
   async goToPedir_viaje() {
+    if(this.map){this.map.remove()}
+    
     this.router.navigate(['/pedir-viajes', this.id]);
   }
 
   async ngOnDestroy() {
-  
+
   }
 
+eliminar(){
+  this.map.remove()
+}
   async ngOnInit() {
     this.route.params.subscribe(async (params) => {
       this.id = params['id_user'];
@@ -53,19 +59,18 @@ export class DetalleViajePage implements OnInit, OnDestroy {
     await this.sacar_datos();
     this.obtenerNombreDeCalle();
 
-    this.initializeMap();
+    
   }
-
   async initializeMap() {
-      const map = new mapboxgl.Map({
-        container: 'map',
+      this.map = new mapboxgl.Map({
+        container: 'map_detalle',
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [-71.53300258986857, -33.033468476876834],
         zoom: 16,
         accessToken: environment.mapboxToken,
       });
 
-      map.on('load', () => {
+      this.map.on('load', () => {
         // Colocar marcadores en el mapa después de que se haya cargado completamente
         const coordenadasMarcador1: mapboxgl.LngLatLike = [
           -71.53300258986857,
@@ -75,7 +80,7 @@ export class DetalleViajePage implements OnInit, OnDestroy {
           this.longitud,
           this.latitud,
         ];
-        map.addSource('line-source', {
+        this.map.addSource('line-source', {
           type: 'geojson',
           data: {
             type: 'Feature',
@@ -86,7 +91,7 @@ export class DetalleViajePage implements OnInit, OnDestroy {
             },
           },
         });
-        map.addLayer({
+        this.map.addLayer({
           id: 'line-layer',
           type: 'line',
           source: 'line-source',
@@ -100,7 +105,6 @@ export class DetalleViajePage implements OnInit, OnDestroy {
           },
         });
       });
-    
   }
 
   async sacar_datos() {
