@@ -1,3 +1,12 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+}
 .check{
     position: absolute; 
     top: 320px; 
@@ -38,8 +47,7 @@ ion-checkbox::part(checkbox) {
     color: rgb(225, 225, 235); 
 }
 .cuerpo{
-    --background: url('../../assets/icon/fondo_carretera.jpg');
-
+    --background: linear-gradient(10deg, #0245fd,#080e22);
 }
 .card{
     text-align: center;

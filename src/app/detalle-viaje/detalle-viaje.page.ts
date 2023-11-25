@@ -35,8 +35,9 @@ export class DetalleViajePage implements OnInit, OnDestroy {
 
 
   async goToPedir_viaje() {
-    if(this.map){this.map.remove()}
-    
+    if(this.map){
+      this.eliminar
+    }
     this.router.navigate(['/pedir-viajes', this.id]);
   }
 
