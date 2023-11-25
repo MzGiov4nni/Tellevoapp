@@ -2,3 +2,64 @@
 .cuerpo{
     --background: linear-gradient(45deg, #2950BA,#0B1435);
 }
+/* Ajusta los estilos del formulario y los elementos del formulario */
+ion-content {
+    background-color: #f5f5f5;
+  }
+  form {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 20px; /* Bordes más redondos */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  ion-item {
+    margin-bottom: 15px;
+  }
+  
+  ion-label {
+    font-size: 16px;
+  }
+  
+  ion-input {
+    font-size: 16px;
+    border-radius: 10px; /* Bordes redondos para el input */
+  }
+  
+  ion-button {
+    margin-top: 20px;
+    border-radius: 20px; /* Bordes redondos para el botón */
+  }
+  
+.container{
+    background: #202020;
+}
+
+.custom-item {
+    --background: transparent;
+    display: flex;
+    align-items: center;
+}
+.custom-item ion-checkbox {
+    align-self: flex-end;   
+    
+}
+.custom-input {
+    border: 1px solid black; 
+    border-radius: 10px;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 4px solid black; 
+    flex: 1; /* Redondear los bordes si lo deseas */
+    color: rgb(225, 225, 235); 
+}
+
+.letra{
+    font-family: "Roboto", sans-serif; 
+    color:#fff;
+    opacity: 3;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 1);
+}

@@ -1,18 +1,18 @@
 <ion-content class="cuerpo">
   <ion-card class="card">
     <ion-card-header>
-      <ion-card-title class="letra">Login</ion-card-title>
+      <ion-card-title class="letra">TELLEVOAPP</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <img class="img" src="../../assets/icon/artwork-removebg-preview.png">
+      <img class="img" src="../../assets/icon/Leonardo_Diffusion_make_a_pixelart_of_a_50_pixel_taxi_2-removebg-preview.png">
       <form [formGroup]="formularioLogin">
         <ion-item lines="none" class="custom-item">
           <ion-label position="floating" class="letra">Nombre De Usuario</ion-label>
-          <ion-input formControlName="user_name" class="custom-input" color="light"></ion-input>
+          <ion-input formControlName="user_name" class="custom-input" ></ion-input>
         </ion-item>
         <ion-item lines="none" class="custom-item">
           <ion-label position="floating" class="letra">Contraseña</ion-label>
-          <ion-input formControlName="password" type="password" id="password" class="custom-input" color="light"></ion-input>
+          <ion-input formControlName="password" type="password" id="password" class="custom-input" ></ion-input>
         </ion-item>
         <ion-item lines="none" class="custom-item">
           <h6 (click)="goToContrasenna()" class="letra">¿olviaste tu contraseña?</h6>
@@ -24,11 +24,3 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
-
-<ion-footer>
-  <ion-toolbar class="cuerpo">
-    <ion-buttons slot="end">
-      <!--<ion-button (click)="goToRegistro()" class="letra" color="light">Registrarse</ion-button>-->
-    </ion-buttons>
-  </ion-toolbar>
-</ion-footer>

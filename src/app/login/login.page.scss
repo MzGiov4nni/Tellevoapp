@@ -1,12 +1,12 @@
 .check{
     position: absolute; 
     top: 320px; 
-    left: 80%;
+    left: 70%;
     margin-right: 5px;
     --border-color: black;
-    --checkbox-background-checked: #00b7ff;
+    --checkbox-background-checked: #4f5050;
     --size: 32px;
-    --checkbox-background: rgb(0, 153, 255);
+    --checkbox-background: rgb(92, 93, 94);
 }
 
 ion-checkbox::part(checkbox) {
@@ -19,34 +19,40 @@ ion-checkbox::part(checkbox) {
 }
 
 .custom-item {
-    --background: #264AB4;
+    --background: transparent;
     display: flex;
     align-items: center;
 }
 .custom-item ion-checkbox {
-    align-self: flex-end;
+    align-self: flex-end;   
+    
 }
 .custom-input {
     border: 1px solid black; 
-    border-radius: 5px;
+    border-radius: 10px;
     border-top: none;
     border-right: none;
     border-left: none;
-    border-bottom: 1px solid black; 
+    border-bottom: 4px solid black; 
     flex: 1; /* Redondear los bordes si lo deseas */
+    color: rgb(225, 225, 235); 
 }
 .cuerpo{
-    --background: linear-gradient(45deg, #2950BA,#0B1435);
+    --background: url('../../assets/icon/fondo_carretera.jpg');
+
 }
 .card{
     text-align: center;
-    border: 2px solid black; 
+    border: 5px solid black; 
     border-radius: 10px;
-    --background: #264AB4;
+    --background: transparent;
 }
+
 .letra{
     font-family: "Roboto", sans-serif; 
-    color:rgb(181, 236, 255);
+    color:#fff;
+    opacity: 3;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 1);
 }
 .boton{
     --background: transparent;

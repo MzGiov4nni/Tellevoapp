@@ -42,9 +42,10 @@
       </div>
       <br>
       <p class="text">{{ direccion }}</p>
-      <ion-button (click)=initializeMap()>crear mapa</ion-button>
+      <a class="bn31" style="margin-left:1%;"><span class="bn31span"(click)= crearMapa() >ABRIR </span></a>
+      <a class="bn31" style="margin-left:55%; margin-top:-52px"><span class="bn31span"(click)=eliminar()>CERRAR </span></a>
       <br>
-      <div id="map" style="width: 400px; height: 400px;"></div>
+      <div id="map" class="mapa"></div>
     </ion-content>
   </div>
 </ion-app>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SupabaseApiService } from '../service/supabase/supabase-api.service';
 import { lastValueFrom } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 import { createClient } from '@supabase/supabase-js';
 import { ToastController } from '@ionic/angular';
 
@@ -24,7 +24,8 @@ export class PerfilPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private supa: SupabaseApiService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private router: Router,
   ) {
     const supabaseUrl = 'https://vgmnxcuuazgilywheivv.supabase.co'; // guardamos la URL en la variable 'supabaseUrl'
     // guardamos a apikey en la variable 'supabaseKey'
@@ -32,7 +33,10 @@ export class PerfilPage implements OnInit {
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZnbW54Y3V1YXpnaWx5d2hlaXZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc2Mzk2MjAsImV4cCI6MjAxMzIxNTYyMH0.O-wxs7VxhOZ8-SWBE0f-KfxYYOss3QI-wnY0nW8MtU8';
     this.supabase = createClient(supabaseUrl, supabaseKey); // creamos el clientes para que haga los trabajos de la vase de datos
   }
-
+  goToHome() {
+    // Utiliza el Router para navegar a la ruta 'home' con el parámetro 'id'
+    this.router.navigate(['/home', this.id]);
+  }
   // esta funcion realizara todas los componetes cuando la pagina termina de cargar
   async ngOnInit() {
     // async para declarar una función asincrónica

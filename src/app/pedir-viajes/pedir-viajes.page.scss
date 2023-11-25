@@ -4,6 +4,7 @@
 .container {
     display: flex;
     flex-direction: column;
+    padding-top: 20px;
 }
 
 .item {
@@ -18,3 +19,46 @@
     font-size: 20px;
     padding: 10px 25px; 
 }
+/* Ajustes generales de la página */
+.cuerpo {
+    background-color: #f8f8f8; /* Cambiar el color de fondo según tu paleta de colores */
+  }
+  
+  /* Estilos para cada elemento de viaje */
+  .viaje-item {
+    background-color: #ffffff; /* Fondo del elemento de viaje */
+    border-radius: 10px; /* Bordes redondos */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    margin-bottom: 10px; /* Espaciado entre elementos de viaje */
+  }
+  
+  /* Contenedor principal dentro del elemento de viaje */
+  .container {
+    padding: 15px; /* Espaciado interno */
+  }
+  
+  /* Estilos para el destino y la hora */
+  .destino, .hora {
+    margin: 0;
+    font-size: 16px; /* Tamaño de fuente */
+    color: #dad6d6; /* Color de texto */
+  }
+  
+  /* Estilos para el botón */
+  .button-container {
+    margin-top: 10px; /* Espaciado entre el texto y el botón */
+  }
+  
+  .custom-button {
+    --background: #3498db; /* Cambiar el color de fondo del botón según tu paleta de colores */
+    --color: #ffffff; /* Cambiar el color del texto del botón según tu paleta de colores */
+    --border-radius: 8px; /* Bordes redondos del botón */
+  }
+  
+  /* Estilos para el mensaje cuando el viaje está en curso */
+  .estado-viaje {
+    margin: 0;
+    font-size: 14px; /* Tamaño de fuente */
+    color: #e74c3c; /* Cambiar el color según tu paleta de colores */
+  }
+  

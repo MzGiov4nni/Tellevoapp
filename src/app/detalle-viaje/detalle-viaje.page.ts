@@ -5,8 +5,6 @@ import { lastValueFrom } from 'rxjs';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
 import { ToastController } from '@ionic/angular';
-import { HttpClient } from '@angular/common/http';
-
 @Component({
   selector: 'app-detalle-viaje',
   templateUrl: './detalle-viaje.page.html',
@@ -24,14 +22,13 @@ export class DetalleViajePage implements OnInit, OnDestroy {
   id_chofer: number = 0;
   latitud: number = 0;
   longitud:number = 0;
-  direccion: string = '';
+ 
   map!: mapboxgl.Map;
 
   constructor(
     private supa: SupabaseApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private http: HttpClient,
     private toastController: ToastController
   ) { }
 
@@ -56,8 +53,7 @@ eliminar(){
       this.id_viaje = params['idSeleccionado'];
     });
 
-    await this.sacar_datos();
-    this.obtenerNombreDeCalle();
+    this.sacar_datos();
 
     
   }
@@ -243,34 +239,5 @@ eliminar(){
     toast.present();
   }
 
-obtenerNombreDeCalle() {
-  const apiKey = environment.mapboxToken; // Token de acceso de Mapbox traido desde 'environment'
-  // Construir la URL para la solicitud de geocodificación primero ponemos 'longitud' luego 'latitud' y al final la 'apiKey'
-  const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.longitud},${this.latitud}.json?access_token=${apiKey}`;
 
-  // Realizar una solicitud HTTP GET a la URL construida
-  this.http.get(url).subscribe(
-    (response: any) => {
-      // Comprobar si la respuesta contiene características geográficas y si hay al menos una
-      if (response.features && response.features.length > 0) {
-        // Asignar el nombre de la calle (place_name) desde la primera característica a la variable 'direccion'
-        this.direccion = response.features[0].place_name;
-
-        console.log('Dirección:', this.direccion); //se muestra en la consola
-      } else {
-      
-        console.error(
-          'No se encontró una dirección válida para estas coordenadas.'
-        );
-      }
-    },
-    (error) => {
-      
-      console.error(
-        'Error al realizar la solicitud de geocodificación:',
-        error
-      );
-    }
-  );
-}
 }

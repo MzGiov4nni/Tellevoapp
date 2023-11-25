@@ -6,15 +6,19 @@
     </ion-toolbar>
 </ion-header>
 <ion-content class="cuerpo" >
-    <button (click)=verificar_pasajero()  class="custom-button">tomar viaje</button>
-    <h4>Chofer: {{nombre_chofer}}</h4>
-    <h4>Nro de asientes: {{asiento}}</h4>
-    <h4>Destino del viaje: {{direccion}}</h4>
-    <h4>lugar de inicio: Sede de DUOC UC Viña del mar</h4>
-    <h4>Hora de inicio: {{hora_ini}}</h4>
-    <h4>{{estado_viaje}}</h4>
+    
+    <h4 class="text">Chofer: {{nombre_chofer}}</h4>
+    <h4 class="text">Nro de asientes: {{asiento}}</h4>
+    <h4 class="text">Destino del viaje: {{destino}}</h4>
+    <h4 class="text">lugar de inicio: Sede de DUOC UC Viña del mar</h4>
+    <h4 class="text">Hora de inicio: {{hora_ini}}</h4>
+    <h4 class="text">{{estado_viaje}}</h4>
+    <button (click)=verificar_pasajero() class="bn30" style="margin-left: 30%;">tomar viaje</button>
     <br>
-    <ion-button (click)=initializeMap()>crear mapa</ion-button>
+    <br>
+    <h4 class="text" style="text-align: center;">Mapa</h4>
+    <a class="bn31" style="margin-left:1%;"><span class="bn31span"(click)=initializeMap() >ABRIR </span></a>
+    <a class="bn31" style="margin-left:55%; margin-top:-52px"><span class="bn31span"(click)=eliminar()>CERRAR </span></a>
     <div id="map_detalle" style="width: 400px; height: 400px;"></div>
 
 </ion-content>

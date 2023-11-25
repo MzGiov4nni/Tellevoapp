@@ -5,15 +5,18 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<ion-content class="cuerpo" >
+<ion-content class="cuerpo">
   <ion-list>
-    <ion-item *ngFor="let p of datosDeViajes">
+    <ion-item *ngFor="let p of datosDeViajes" class="viaje-item">
       <div class="container">
-        <h5 class="item">Destino: {{ p.destino }}</h5>
-        <h5 class="item">hora de salida: {{ p.hora_ini }}</h5>
-        <h5 class="item"  *ngIf="p.estado_viaje; else noEstadoViaje"><button (click)="goToDetalle_viaje(p.id)" class="custom-button">tomar viaje</button></h5>
-        <ng-template #noEstadoViaje>el viaje esta en curso</ng-template>
+        <h5 class="destino">Destino: {{ p.destino }}</h5>
+        <h5 class="hora">Hora de salida: {{ p.hora_ini }}</h5>
+        <div *ngIf="p.estado_viaje; else noEstadoViaje" class="button-container">
+          <ion-button (click)="goToDetalle_viaje(p.id)" class="custom-button">Tomar viaje</ion-button>
+        </div>
+        <ng-template #noEstadoViaje>
+          <p class="estado-viaje">El viaje está en curso</p>
+        </ng-template>
       </div>
     </ion-item>
   </ion-list>
